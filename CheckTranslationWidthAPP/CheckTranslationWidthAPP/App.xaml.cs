@@ -1,0 +1,94 @@
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Windows;
+using CheckTranslationWidthAPP.CommonUnit;
+using CheckTranslationWidthAPP.model;
+using NBug;
+
+
+namespace CheckTranslationWidthAPP
+{
+    /// <summary>
+    /// App.xaml 的交互逻辑
+    /// </summary>
+    public partial class App : Application
+    {
+        //test
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            // .\处理
+            if (e.Args.Length >= 1 && e.Args[0].StartsWith("."))
+            {
+                string strFileName = e.Args[0].Substring(2);
+                e.Args[0] = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, strFileName);
+            }
+            //参数获取
+            switch (e.Args.Length)
+            {
+                case 1:
+                    Argument.FilePath = e.Args[0];
+                    break;
+                case 2:
+                    Argument.FilePath = e.Args[0];
+                    Argument.OutPutType = e.Args[1];
+                    break;
+            }
+            //验证
+            if (e.Args.Length >= 1 && File.Exists(Argument.FilePath) == false)
+            {
+                Console.WriteLine("This is not a document or the document does not exist");
+                Environment.Exit(0);
+            }
+            //日志记录初始化
+            LogHelper.Init();
+            LogHelper.Logger.Info("Started");
+            #region 添加异常处理捕获
+
+            // Sample NBug configuration for WPF applications
+            Settings.MaxQueuedReports = 100;
+            Settings.StopReportingAfter = 5 * 365;
+            Settings.HandleProcessCorruptedStateExceptions = true;
+            Settings.UIMode = NBug.Enums.UIMode.Minimal;
+            // 异常的时候 Exception_ 文件储存的位置
+            Settings.StoragePath = @"Crash";
+
+            // 获取已经存在的 Crash 文件列表，删除旧的，不然达到最大存储值之后就无法继续写入了
+            SortHelper sortHelper = new SortHelper();
+            var strTmpPath_Crash = Path.Combine(Environment.CurrentDirectory, @"Crash");
+            if (Directory.Exists(strTmpPath_Crash) == false)
+            {
+                Directory.CreateDirectory(strTmpPath_Crash);
+            }
+            var list = sortHelper.GetFiles_SortOfCreateTime(strTmpPath_Crash);
+            if (list.Length >= Settings.MaxQueuedReports - 5)
+            {
+                for (int i = 0; i < list.Length - 5; i++)
+                {
+                    try
+                    {
+                        File.Delete(list[i].FullName);
+                    }
+                    catch (Exception)
+                    {
+                        // ignored
+                    }
+                }
+            }
+
+            AppDomain.CurrentDomain.UnhandledException += Handler.UnhandledException;
+            Current.DispatcherUnhandledException += Handler.DispatcherUnhandledException;
+            TaskScheduler.UnobservedTaskException += Handler.UnobservedTaskException;
+
+            // 对于UI线程的未处理异常
+            //Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
+
+            // 对于非UI线程抛出的未处理异常
+            //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
+            #endregion
+            base.OnStartup(e);
+        }
+
+
+    }
+}

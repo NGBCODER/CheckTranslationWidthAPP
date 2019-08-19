@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="CheckCode">校验码</s:String>
+    <s:String x:Key="MachineType">仪器类型</s:String>
+    <s:String x:Key="KeyStr">key_str</s:String>
+    <s:String x:Key="Chinese">中文</s:String>
+    <s:String x:Key="English">English</s:String>
+
+
+</ResourceDictionary>

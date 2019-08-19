@@ -1,0 +1,19 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib"
+                    xmlns:local="clr-namespace:CheckTranslationWidthAPP.language">
+    <sys:String x:Key="No">No</sys:String>
+    <sys:String x:Key="Translation">Translation</sys:String>
+    <sys:String x:Key="WidthOfControl">Width(control)</sys:String>
+    <sys:String x:Key="StandardWidthOfControl">Standard Width(control)</sys:String>
+    <sys:String x:Key="OverLengthOfControl">OverLength(control)</sys:String>
+    <sys:String x:Key="WidthOfMethod">Width(method)</sys:String>
+    <sys:String x:Key="StandardWidthOfMethod">Standard Width(method)</sys:String>
+    <sys:String x:Key="OverLengthOfMethod">OverLength(method)</sys:String>
+    <sys:String x:Key="OpenExcelFile">OpenExcelFile</sys:String>
+    <sys:String x:Key="BeginCheck">Begin Check</sys:String>
+    <sys:String x:Key="ChangeLanguage">Change Language</sys:String>
+    <sys:String x:Key="English">English</sys:String>
+    <sys:String x:Key="Chinese">中文</sys:String>
+    <sys:String x:Key="Complete">check complete</sys:String>
+</ResourceDictionary>
