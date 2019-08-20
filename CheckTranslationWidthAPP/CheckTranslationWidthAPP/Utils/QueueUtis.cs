@@ -13,7 +13,7 @@ namespace CheckTranslationWidthAPP.Utils
         /// <param name="sheet"></param>
         /// <param name="queue1"></param>
         /// <param name="queue2"></param>
-        public static void JoinDataQueue(IXLWorksheet sheet, Queue<DataQueueInfo> queue1, Queue<DataQueueInfo> queue2)
+        public static void JoinDataQueue(IXLWorksheet sheet, Queue<DataQueueInfo> queue1, Queue<DataQueueInfo> queue2,int targetColumn)
         {
             //读取sheet
             int rows = sheet.RangeUsed().RowCount();
@@ -23,7 +23,8 @@ namespace CheckTranslationWidthAPP.Utils
                 string strKey = sheet.Cell(i, 2).Value.ToString();
                 string strChinese = sheet.Cell(i, 3).Value.ToString();
                 string strEnglish = sheet.Cell(i, 4).Value.ToString();
-                DataQueueInfo dataQueueInfo = new DataQueueInfo{No = no,StrKey = strKey,Chinese = strChinese,English = strEnglish};
+                string strTargetTranslation = sheet.Cell(i, targetColumn).Value.ToString();
+                DataQueueInfo dataQueueInfo = new DataQueueInfo{No = no,StrKey = strKey,Chinese = strChinese,English = strEnglish,TargtTranslation = strTargetTranslation};
                 //加入数据队列
                 if (i%2 != 0)
                 {

@@ -17,7 +17,7 @@ namespace CheckTranslationWidthAPP
         //test
         protected override void OnStartup(StartupEventArgs e)
         {
-            // .\处理
+            // “ .\” 处理
             if (e.Args.Length >= 1 && e.Args[0].StartsWith("."))
             {
                 string strFileName = e.Args[0].Substring(2);
@@ -31,15 +31,57 @@ namespace CheckTranslationWidthAPP
                     break;
                 case 2:
                     Argument.FilePath = e.Args[0];
-                    Argument.OutPutType = e.Args[1];
+                    Argument.OutPutType = e.Args[1].ToLower();
                     break;
+                case 3:
+                    Argument.FilePath = e.Args[0];
+                    Argument.OutPutType = e.Args[1].ToLower();
+                    Argument.OutPutDiretory = e.Args[2];
+                    break;
+
             }
-            //验证
-            if (e.Args.Length >= 1 && File.Exists(Argument.FilePath) == false)
+            //验证，文件输入有误
+            if (e.Args.Length >= 1)
             {
-                Console.WriteLine("This is not a document or the document does not exist");
-                Environment.Exit(0);
+                //文件位置输入有误
+                if (File.Exists(Argument.FilePath) == false)
+                {
+                    Console.WriteLine("This is not a document or the document does not exist");
+                    Console.ReadKey();
+                    Environment.Exit(0);
+                }
+                //再判断输出类型，xml json
+                if (e.Args.Length >= 2)
+                {
+                    if ((!Argument.OutPutType.Equals("json") && !Argument.OutPutType.Equals("xml")))
+                    {
+                        Console.WriteLine("The file type is not current!,only support xml or json");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+
+                    //再对文件夹参数判断
+                    if (e.Args.Length >= 3 && Directory.Exists(Argument.OutPutDiretory) == false)
+                    {
+                        try
+                        {                            
+                            //创建文件夹
+                            Console.WriteLine("Creating the Diretory...");
+                            Directory.CreateDirectory(Argument.OutPutDiretory);
+                            Console.WriteLine("Create Success");
+                        }
+                        catch (Exception)
+                        {
+                            Console.WriteLine("Creating the Diretory fail,please check your diretory");
+                            Console.ReadKey();
+                            Environment.Exit(0);
+                        }
+                    }
+                }
             }
+
+
+
             //日志记录初始化
             LogHelper.Init();
             LogHelper.Logger.Info("Started");

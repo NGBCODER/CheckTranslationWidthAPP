@@ -129,8 +129,10 @@ namespace CheckTranslationWidthAPP
                 double stardandWidthByMethod = chineseWidthByMethod >= englishWidthByMethod ? chineseWidthByMethod : englishWidthByMethod;
                 //基本字符串
                 string strBase = chineseWidth >= englishWidth ? info.Chinese : info.English;
+
                 //模拟译文
                 string strSimulation = GetSimulation(strBase);
+
                 //模拟译文UI方式宽度
                 double simulationWidth = GetActualWidth(strSimulation);
                 //UI方式是否超长
@@ -215,21 +217,53 @@ namespace CheckTranslationWidthAPP
             IXLWorksheet wsTrans = wbTrans.Worksheet(1);
             //数据条数（为了设置进度条的最大值）
             rows = wsTrans.RangeUsed().RowCount()-2;
+
             //设置精度条的最大值
             this.Dispatcher.Invoke((Action)delegate () {
                 mProgressBar.Maximum = rows;
             });
+
             //数据入队
-            QueueUtis.JoinDataQueue(wsTrans, dataQueue1, dataQueue2);
+            QueueUtis.JoinDataQueue(wsTrans, dataQueue1, dataQueue2,5);
             //处理数据
             Thread dataQueue1Thread = new Thread(new ThreadStart(DataQueue1ThreadStart));
             dataQueue1Thread.Start();
             Thread dataQueue2Thread = new Thread(new ThreadStart(DataQueue2ThreadStart));
             dataQueue2Thread.Start();
+
             //等待数据处理完毕
             AutoResetEvent.WaitAll(autoResetEvent);
-            string strOutPutFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory,"output.json");
-            OutPutOperator.OutPutToJSON(resultList, strOutPutFilePath);
+            //输出
+            string baseDiretory = string.Empty;
+            if (Argument.OutPutDiretory!=null && Directory.Exists(Argument.OutPutDiretory))
+            {
+                baseDiretory = Argument.OutPutDiretory;
+            }
+            //默认文件输出路径
+            else
+            {
+                baseDiretory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+
+            if (Argument.OutPutType!=null)
+            {
+                try
+                {
+                    OutPutOperator.GetJsonOrXmlResult(resultList, baseDiretory, Argument.OutPutType);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("write error");
+                    MessageBox.Show("write error"+Environment.NewLine+"文件输出出错");
+                }
+            }
+            //默认文件类型 json
+            else
+            {
+                OutPutOperator.OutPutToJSON(resultList,Path.Combine(baseDiretory, "result.json"));
+            }
+
+            //若是传参，自动关闭程序
             if (Argument.FilePath!=null)
             {
                 Dispatcher.Invoke((Action)delegate ()
@@ -405,6 +439,16 @@ namespace CheckTranslationWidthAPP
             {
                 imCountry.Source = bitmapImage;
             }
+        }
+
+        /// <summary>
+        /// 用户设置、检查的列、输出路径、输出类型
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void User_SetUp(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

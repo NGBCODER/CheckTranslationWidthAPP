@@ -5,9 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:cm="clr-namespace:System.ComponentModel;assembly=System"
         mc:Ignorable="d"
-        MinHeight="550"
-        MinWidth="800"
-        Title="译文长度检查APP" 
+        Title="{DynamicResource title}" 
         Icon="icon/CheckWidth.ico" 
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
@@ -33,32 +31,54 @@
 
     <Grid x:Name="MDataContext">
         <Grid.RowDefinitions>
-            <RowDefinition Height="35"/>
+            <RowDefinition Height="45"/>
             <RowDefinition Height="3*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <StackPanel 
-            Margin="20,10,20,0"
-            FlowDirection="RightToLeft"
-            Orientation="Horizontal"
-            Grid.Row="0" 
-            Height="30">
-            <ComboBox
+        <Grid
+            Height="35"
+            Margin="20,0,20,0"
+            Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button
+                Margin="10,0,0,0"
+                Height="35"
+                BorderBrush="White"
+                Background="White"
+                Grid.Column="0" 
+                ToolTip="{DynamicResource setting}"
+                Click="User_SetUp"
+                HorizontalAlignment="Left">
+                <Button.Content>
+                    <Image 
+                        Source="image/setting.png" 
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Bottom"/>
+                </Button.Content>
+            </Button>
+
+            <StackPanel
+                Grid.Column="1"
+                FlowDirection="RightToLeft"
+                Orientation="Horizontal">
+                <ComboBox
                 x:Name="cmbSelectLanguage"
                 HorizontalAlignment="Right"
                 Width="100" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem IsSelected="True" Content="{DynamicResource English}"/>
-                <ComboBoxItem Content="{DynamicResource Chinese}"/>
-            </ComboBox>
-            <Image 
+                    <ComboBoxItem IsSelected="True" Content="{DynamicResource English}"/>
+                    <ComboBoxItem Content="{DynamicResource Chinese}"/>
+                </ComboBox>
+                <Image 
                 x:Name="imCountry"
                 Source="image/us.jpg"
                 Width="40" 
-                Stretch="Fill">
-
-            </Image>
-        </StackPanel>
+                Stretch="Fill"/>
+            </StackPanel>
+        </Grid>
         <Border
             Grid.Row="1"
             CornerRadius="20"

@@ -10,3 +10,7 @@ NBugTrace: Starting to handle a System.Windows.Application.DispatcherUnhandledEx
 NBugTrace: Starting to generate a bug report for the exception.
 NBugTrace: Creating report file to custom path: E:\test\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132106606317765730.zip
 NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 2
+NBugTrace: Starting to handle a System.AppDomain.UnhandledException.
+NBugTrace: Starting to generate a bug report for the exception.
+NBugTrace: Creating report file to custom path: C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132107457763281628.zip
+NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 3

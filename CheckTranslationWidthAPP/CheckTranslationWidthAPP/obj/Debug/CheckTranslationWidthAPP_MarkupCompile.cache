@@ -4,16 +4,16 @@
 exe
 C#
 .cs
-E:\test\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\
 CheckTranslationWidthAPP
 none
 false
 DEBUG;TRACE
-E:\test\CheckTranslationWidthAPP\CheckTranslationWidthAPP\App.xaml
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\App.xaml
 4-1037884702
 
 201720490146
-231514180237
+231604824254
 language\en_US.xaml;language\zh_CN.xaml;MainWindow.xaml;model\ExcelDictionary.xaml;
 
 False

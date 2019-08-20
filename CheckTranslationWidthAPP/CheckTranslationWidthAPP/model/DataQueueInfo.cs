@@ -28,5 +28,7 @@ namespace CheckTranslationWidthAPP.model
         /// 英文
         /// </summary>
         public string English { set; get; }
+
+        public string TargtTranslation { set; get; }
     }
 }

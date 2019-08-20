@@ -2,6 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib"
                     xmlns:local="clr-namespace:CheckTranslationWidthAPP.language">
+    
+    <sys:String x:Key="title">Check Translation Width</sys:String>
+    <sys:String x:Key="setting">Set up</sys:String>
+    
     <sys:String x:Key="No">No</sys:String>
     <sys:String x:Key="Translation">Translation</sys:String>
     <sys:String x:Key="WidthOfControl">Width(control)</sys:String>
