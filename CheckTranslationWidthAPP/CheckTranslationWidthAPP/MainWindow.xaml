@@ -12,6 +12,7 @@
         HorizontalContentAlignment="Center" WindowState="Maximized">
 
     <Window.Resources>
+        <!--工作者线程-->
         <cm:BackgroundWorker
             x:Key="backgroundWorker"
             WorkerReportsProgress="True"
@@ -19,6 +20,7 @@
             DoWork="BackgroundWorker_OnDoWork"
             ProgressChanged="BackgroundWorker_OnProgressChanged"
             RunWorkerCompleted="BackgroundWorker_OnRunWorkerCompleted"/>
+        <!--样式触发器-->
         <Style TargetType="{x:Type DataGridRow}">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsOverWidthOfControl}" Value="true">
@@ -63,14 +65,16 @@
 
             <StackPanel
                 Grid.Column="1"
+                Height="25"
                 FlowDirection="RightToLeft"
                 Orientation="Horizontal">
                 <ComboBox
-                x:Name="cmbSelectLanguage"
-                HorizontalAlignment="Right"
-                Width="100" SelectionChanged="ComboBox_SelectionChanged">
-                    <ComboBoxItem IsSelected="True" Content="{DynamicResource English}"/>
-                    <ComboBoxItem Content="{DynamicResource Chinese}"/>
+                    x:Name="cmbSelectLanguage"
+                    HorizontalAlignment="Right"
+                    Width="100" 
+                    SelectionChanged="ComboBox_SelectionChanged">
+                        <ComboBoxItem IsSelected="True" Content="{DynamicResource English}"/>
+                        <ComboBoxItem Content="{DynamicResource Chinese}"/>
                 </ComboBox>
                 <Image 
                 x:Name="imCountry"

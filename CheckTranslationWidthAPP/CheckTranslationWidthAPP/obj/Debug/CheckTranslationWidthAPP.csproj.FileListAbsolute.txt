@@ -134,3 +134,7 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.csproj.CopyComplete
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.exe
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.pdb
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.g.cs
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.baml
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll

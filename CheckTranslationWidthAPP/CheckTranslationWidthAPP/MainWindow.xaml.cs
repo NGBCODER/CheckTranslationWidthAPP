@@ -1,23 +1,17 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using CheckTranslationWidthAPP.model;
 using CheckTranslationWidthAPP.Utils;
-
 using CheckTranslationWidthAPP.view;
 using Microsoft.Win32;
 using ClosedXML.Excel;
 using System.Threading;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Threading;
-using CheckTranslationWidthAPP.CommonUnit;
-using NBug;
 using System.Windows.Media.Imaging;
 
 namespace CheckTranslationWidthAPP
@@ -395,7 +389,6 @@ namespace CheckTranslationWidthAPP
         /// <param name="e"></param>
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ResourceDictionary langRd = null;
             BitmapImage bitmapImage = null;
             //英文
             if (cmbSelectLanguage.SelectedIndex == 0)
@@ -403,7 +396,7 @@ namespace CheckTranslationWidthAPP
                 try
                 {
                     //根据名字载入语言文件//相对路径
-                    langRd = Application.LoadComponent(new Uri(@"language\" + "en_US" + ".xaml", UriKind.Relative)) as ResourceDictionary;
+                    MyResourceDictionary.resource = Application.LoadComponent(new Uri(@"language\" + "en_US" + ".xaml", UriKind.Relative)) as ResourceDictionary;
                     bitmapImage = new BitmapImage(new Uri(@"image/us.jpg", UriKind.RelativeOrAbsolute));
                 }
                 catch (Exception e2)
@@ -417,7 +410,7 @@ namespace CheckTranslationWidthAPP
                 try
                 {
                     //根据名字载入语言文件//相对路径
-                    langRd = Application.LoadComponent(new Uri(@"language\" + "zh_CN" + ".xaml", UriKind.Relative)) as ResourceDictionary;
+                    MyResourceDictionary.resource = Application.LoadComponent(new Uri(@"language\" + "zh_CN" + ".xaml", UriKind.Relative)) as ResourceDictionary;
                     bitmapImage = new BitmapImage(new Uri(@"image/china.jpg", UriKind.RelativeOrAbsolute));
                 }
                 catch (Exception e2)
@@ -426,14 +419,14 @@ namespace CheckTranslationWidthAPP
                 }
             }
             //更新
-            if (langRd != null)
+            if (MyResourceDictionary.resource != null)
             {
                 //如果已使用其他语言,先清空
                 if (this.Resources.MergedDictionaries.Count > 0)
                 {
                     this.Resources.MergedDictionaries.Clear();
                 }
-                this.Resources.MergedDictionaries.Add(langRd);
+                this.Resources.MergedDictionaries.Add(MyResourceDictionary.resource);
             }
             if (imCountry!=null)
             {
@@ -448,7 +441,10 @@ namespace CheckTranslationWidthAPP
         /// <param name="e"></param>
         private void User_SetUp(object sender, RoutedEventArgs e)
         {
-
+            UserSetting userSetting = new UserSetting();
+            userSetting.Owner = this;
+            userSetting.WindowStartupLocation = System.Windows.WindowStartupLocation.CenterOwner;
+            userSetting.ShowDialog();
         }
     }
 }

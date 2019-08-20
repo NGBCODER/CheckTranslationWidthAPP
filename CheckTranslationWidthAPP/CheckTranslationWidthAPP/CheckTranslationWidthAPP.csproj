@@ -71,6 +71,12 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack.Core.1.1.0\lib\Microsoft.WindowsAPICodePack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.WindowsAPICodePack.Shell, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.WindowsAPICodePack.Shell.1.1.0\lib\Microsoft.WindowsAPICodePack.Shell.dll</HintPath>
+    </Reference>
     <Reference Include="NBug, Version=1.2.0.0, Culture=neutral, PublicKeyToken=a4292a325f69b123, processorArchitecture=MSIL">
       <HintPath>..\packages\NBug.1.2.2\lib\net40-client\NBug.dll</HintPath>
     </Reference>
@@ -110,15 +116,23 @@
     <Compile Include="model\InputContainer.cs" />
     <Compile Include="model\DataQueueInfo.cs" />
     <Compile Include="model\LogHelper.cs" />
+    <Compile Include="model\MyResourceDictionary.cs" />
     <Compile Include="model\ResultQueueInfo.cs" />
     <Compile Include="model\TranslationResult.cs" />
     <Compile Include="model\Translation.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="UserSetting.xaml.cs">
+      <DependentUpon>UserSetting.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils\ExcelUtils.cs" />
     <Compile Include="Utils\OutPutOperator.cs" />
     <Compile Include="Utils\QueueUtis.cs" />
     <Compile Include="view\ViewData.cs" />
     <Page Include="language\en_US.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserSetting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

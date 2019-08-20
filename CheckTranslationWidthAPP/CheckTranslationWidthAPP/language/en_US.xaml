@@ -4,8 +4,16 @@
                     xmlns:local="clr-namespace:CheckTranslationWidthAPP.language">
     
     <sys:String x:Key="title">Check Translation Width</sys:String>
-    <sys:String x:Key="setting">Set up</sys:String>
-    
+    <sys:String x:Key="setting">Set up</sys:String> 
+    <sys:String x:Key="UserSetting">User Set Up</sys:String>
+    <sys:String x:Key="General">General</sys:String>
+    <sys:String x:Key="SavaPath">Sava Path</sys:String>
+    <sys:String x:Key="Open">Open</sys:String>
+    <sys:String x:Key="OutPutType">Output FileType</sys:String>
+    <sys:String x:Key="TranslationColumn">Location of the translation (in the columns of the table)</sys:String>
+    <sys:String x:Key="tipSavePath">Get the file save path</sys:String>
+    <sys:String x:Key="Save">Save</sys:String>
+
     <sys:String x:Key="No">No</sys:String>
     <sys:String x:Key="Translation">Translation</sys:String>
     <sys:String x:Key="WidthOfControl">Width(control)</sys:String>

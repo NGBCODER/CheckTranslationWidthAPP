@@ -4,6 +4,15 @@
                     xmlns:local="clr-namespace:CheckTranslationWidthAPP.language">
     <sys:String x:Key="title">译文长度检查</sys:String>
     <sys:String x:Key="setting">设置</sys:String>
+    <sys:String x:Key="UserSetting">用户设置</sys:String>
+    <sys:String x:Key="General">常规</sys:String>
+    <sys:String x:Key="SavaPath">保存路径</sys:String>
+    <sys:String x:Key="Open">打开</sys:String>
+    <sys:String x:Key="OutPutType">输出文件类型</sys:String>
+    <sys:String x:Key="TranslationColumn">译文位置(在表格的第几列)</sys:String>
+    <sys:String x:Key="tipSavePath">获取文件保存路径</sys:String>
+    <sys:String x:Key="Save">保存</sys:String>
+
 
     <sys:String x:Key="No">序号</sys:String>
     <sys:String x:Key="Translation">译文</sys:String>
