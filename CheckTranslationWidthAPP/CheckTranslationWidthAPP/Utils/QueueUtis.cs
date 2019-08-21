@@ -15,7 +15,7 @@ namespace CheckTranslationWidthAPP.Utils
         /// <param name="sheet"></param>
         /// <param name="queue1"></param>
         /// <param name="queue2"></param>
-        public static void JoinDataQueue(IXLWorksheet sheet, Queue<DataQueueInfo>[] dataQueues,int targetColumn)
+        public static void JoinDataQueue(IXLWorksheet sheet, Queue<DataQueueInfo>[] dataQueues,int targetColumn,int threadCount)
         {
             //读取sheet
             int rows = sheet.RangeUsed().RowCount();
@@ -26,8 +26,13 @@ namespace CheckTranslationWidthAPP.Utils
                 string strKey = sheet.Cell(i, 2).Value.ToString();
                 string strChinese = sheet.Cell(i, 3).Value.ToString();
                 string strEnglish = sheet.Cell(i, 4).Value.ToString();
+
                 //获取真正的译文，确保不为空
+                int row = i;
+                int column = targetColumn;
+
                 string strTargetTranslation = sheet.Cell(i, targetColumn).Value.ToString();
+
                 //检查是否为空,是抛出异常
                 if (strTargetTranslation.Equals(""))
                 {
@@ -40,8 +45,7 @@ namespace CheckTranslationWidthAPP.Utils
                     //若是控制台传参，自动关闭程序
                     if (Argument.FilePath != null)
                     {
-                        Console.WriteLine("The translation is incorrect and there is a null value" + Environment.NewLine + "译文不正确，存在空值");
-                        Console.ReadKey();
+                        Console.WriteLine("The translation is incorrect and there is a null value" + Environment.NewLine+ Environment.NewLine + "译文不正确，存在空值");
                     }
                     //Ui方式
                     else
@@ -55,7 +59,9 @@ namespace CheckTranslationWidthAPP.Utils
                     StrKey = strKey,
                     Chinese = strChinese,
                     English = strEnglish,
-                    TargtTranslation = strTargetTranslation};
+                    TargtTranslation = strTargetTranslation,
+                    Row = row,
+                    Column = column};
 
                 // 按序入队
                 dataQueues[dataCount].Enqueue(dataQueueInfo);

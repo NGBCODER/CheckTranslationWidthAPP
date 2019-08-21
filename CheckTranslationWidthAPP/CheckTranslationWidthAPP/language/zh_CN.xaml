@@ -22,6 +22,9 @@
     <sys:String x:Key="WidthOfMethod">宽度(方法)</sys:String>
     <sys:String x:Key="StandardWidthOfMethod">标准宽度(方法)</sys:String>
     <sys:String x:Key="OverLengthOfMethod">超长(方法)</sys:String>
+    <sys:String x:Key="row">行</sys:String>
+    <sys:String x:Key="column">列</sys:String>
+
     <sys:String x:Key="OpenExcelFile">打开excel文件</sys:String>
     <sys:String x:Key="BeginCheck">开始检查</sys:String>
     <sys:String x:Key="ChangeLanguage">更换语言</sys:String>

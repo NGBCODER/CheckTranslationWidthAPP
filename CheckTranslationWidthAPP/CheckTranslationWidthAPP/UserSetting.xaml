@@ -8,7 +8,9 @@
         FontSize="16"
         Title="{DynamicResource UserSetting}" 
         Height="450" 
-        Width="800" WindowState="Maximized">
+        Width="800" 
+        WindowState="Maximized">
+    
     <Grid
         Margin="10,5,10,5">
         <Grid.ColumnDefinitions>
@@ -27,28 +29,38 @@
             BorderThickness="1"
             BorderBrush="#FFABADB3"
             Grid.Column="1">
-            
+
             <StackPanel>
-                <StackPanel
+
+                <Grid
                     Height="30"
                     Grid.Row="0"
                     Margin="0,5,0,5"
-                    Orientation="Horizontal"
                     VerticalAlignment="Top">
-                    <Label 
-                        Margin="10,0,0,0"
-                        Content="{DynamicResource SavaPath}"/>
-                    <TextBox 
-                        MinWidth="600"
-                        MaxWidth="800"
-                        x:Name="tbFileSavePath"/>
-                    <Button 
-                        Margin="10,0,0,0"
-                        Width="100"
-                        Click="Find_SavePath"
-                        ToolTip="{DynamicResource tipSavePath}"
-                        Content="{DynamicResource Open}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                </StackPanel>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="7*"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label 
+                            Grid.Column="0"
+                            Margin="10,0,0,0"
+                            Content="{DynamicResource SavaPath}"/>
+                        <TextBox 
+                            Grid.Column="1"
+                            x:Name="tbFileSavePath"/>
+                        <Button 
+                            Grid.Column="2"
+                            Margin="10,0,0,0"
+                            Width="100"
+                            Click="Find_SavePath"
+                            ToolTip="{DynamicResource tipSavePath}"
+                            Content="{DynamicResource Open}" 
+                            HorizontalAlignment="Left" 
+                            VerticalAlignment="Center"/>
+                    </Grid>
+
+
 
                 <StackPanel 
                     Margin="10,0,0,0"

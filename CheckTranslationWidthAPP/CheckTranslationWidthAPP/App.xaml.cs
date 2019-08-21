@@ -53,7 +53,6 @@ namespace CheckTranslationWidthAPP
                     catch (Exception)
                     {
                         Console.WriteLine("Input column position is incorrect");
-                        Console.ReadKey();
                         Environment.Exit(0);
                     }
                     break;
@@ -65,7 +64,6 @@ namespace CheckTranslationWidthAPP
                 if (File.Exists(Argument.FilePath) == false)
                 {
                     Console.WriteLine("This is not a document or the document does not exist");
-                    Console.ReadKey();
                     Environment.Exit(0);
                 }
                 //再判断输出类型，xml json
@@ -74,7 +72,6 @@ namespace CheckTranslationWidthAPP
                     if ((!Argument.OutPutType.Equals("json") && !Argument.OutPutType.Equals("xml")))
                     {
                         Console.WriteLine("The file type is not current!,only support xml or json");
-                        Console.ReadKey();
                         Environment.Exit(0);
                     }
 
@@ -91,7 +88,6 @@ namespace CheckTranslationWidthAPP
                         catch (Exception)
                         {
                             Console.WriteLine("Creating the Diretory fail,please check your diretory");
-                            Console.ReadKey();
                             Environment.Exit(0);
                         }
                     }

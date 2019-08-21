@@ -108,11 +108,11 @@ namespace CheckTranslationWidthAPP
                     //保存列位置
                     Argument.TargetColumn = Convert.ToInt32(strTarget);
                     //成功提示
-                    MessageBoxResult result= MessageBox.Show("Save Success" + Environment.NewLine + "保存成功");
+                    MessageBoxResult result= MessageBox.Show("Save Success" + Environment.NewLine + Environment.NewLine + "保存成功");
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("The number you entered is incorrect." + Environment.NewLine + "你输入的数字不正确");
+                    MessageBox.Show("The number you entered is incorrect." + Environment.NewLine + Environment.NewLine + "你输入的数字不正确");
                     TargetColumn.Text = string.Empty;
                     TargetColumn.BorderBrush = Brushes.Red;
                 }
@@ -128,7 +128,7 @@ namespace CheckTranslationWidthAPP
             }
             catch (Exception)
             {
-                MessageBox.Show("The folder you entered does not exist." + Environment.NewLine + "你输入的文件夹不存在");
+                MessageBox.Show("The folder you entered does not exist." + Environment.NewLine + Environment.NewLine + "你输入的文件夹不存在");
                 tbFileSavePath.Text = string.Empty;
                 tbFileSavePath.BorderBrush = Brushes.Red;
             }

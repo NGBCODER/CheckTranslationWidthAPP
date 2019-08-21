@@ -30,5 +30,8 @@ namespace CheckTranslationWidthAPP.model
         public string English { set; get; }
 
         public string TargtTranslation { set; get; }
+
+        public int Row { set; get; }
+        public int Column { set; get; }
     }
 }

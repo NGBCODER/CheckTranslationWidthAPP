@@ -21,6 +21,8 @@
     <sys:String x:Key="OverLengthOfControl">OverLength(control)</sys:String>
     <sys:String x:Key="WidthOfMethod">Width(method)</sys:String>
     <sys:String x:Key="StandardWidthOfMethod">Standard Width(method)</sys:String>
+    <sys:String x:Key="row">Row</sys:String>
+    <sys:String x:Key="column">Column</sys:String>
     <sys:String x:Key="OverLengthOfMethod">OverLength(method)</sys:String>
     <sys:String x:Key="OpenExcelFile">OpenExcelFile</sys:String>
     <sys:String x:Key="BeginCheck">Begin Check</sys:String>

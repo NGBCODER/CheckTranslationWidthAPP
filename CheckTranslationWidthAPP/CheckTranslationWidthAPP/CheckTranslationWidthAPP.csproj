@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C138E7CB-FAA5-4A0D-8605-1AD31BD70004}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>CheckTranslationWidthAPP</RootNamespace>
     <AssemblyName>CheckTranslationWidthAPP</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>

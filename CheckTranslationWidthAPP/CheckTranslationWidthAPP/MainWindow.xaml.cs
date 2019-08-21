@@ -23,12 +23,12 @@ namespace CheckTranslationWidthAPP
     public partial class MainWindow : Window
     {
         private delegate void beginInvokeDelegate();
-        private static AutoResetEvent[] autoResetEvent = new AutoResetEvent[Environment.ProcessorCount];
+        private AutoResetEvent[] autoResetEvent;
         private static List<ResultQueueInfo> resultList = new List<ResultQueueInfo>();
         private static int rows = 0;
-
+        public static int threadCount = 0;
         //原始数据队列数组
-        Queue<DataQueueInfo>[] dataQueues = new Queue<DataQueueInfo>[Environment.ProcessorCount];
+        Queue<DataQueueInfo>[] dataQueues;
 
         //结果队列
         Queue<ResultQueueInfo> resultQueue = new Queue<ResultQueueInfo>();
@@ -44,8 +44,13 @@ namespace CheckTranslationWidthAPP
             InitializeComponent();
             backgroundWorker = (BackgroundWorker) FindResource("backgroundWorker");
             MDataContext.DataContext = viewData;
-            //初始化线程数
-            for (int i = 0; i < Environment.ProcessorCount; i++)
+
+            //最高开8个线程
+            threadCount = Environment.ProcessorCount > 8 ? 8 : Environment.ProcessorCount;
+            autoResetEvent = new AutoResetEvent[threadCount];
+            dataQueues = new Queue<DataQueueInfo>[threadCount];
+
+            for (int i = 0; i < threadCount; i++)
             {
                 autoResetEvent[i] = new AutoResetEvent(false);
                 dataQueues[i] = new Queue<DataQueueInfo>();
@@ -72,7 +77,7 @@ namespace CheckTranslationWidthAPP
             //控制台方式启动处理
             if (Argument.FilePath!=null)
             {
-                this.ShowInTaskbar = false;
+                //this.ShowInTaskbar = false;
                 this.Hide();
                 //设置UI的文件位置
                 viewData.StrFilePath = Argument.FilePath;
@@ -91,18 +96,28 @@ namespace CheckTranslationWidthAPP
             //1 首先要有译文
             if (File.Exists(tbFilePath.Text))
             {
-                //2 判断是否规范 
-                if (ExcelUtils.IsTranslationFile(tbFilePath.Text))
+                try
                 {
-                    //还没设置多行位置
-                    if (Argument.TargetColumn>0 == false)
+                    //2 判断是否规范 
+                    if (ExcelUtils.IsTranslationFile(tbFilePath.Text))
                     {
-                        User_SetUp(sender, e);
+                        //还没设置多行位置
+                        if (Argument.TargetColumn > 0 == false)
+                        {
+                            User_SetUp(sender, e);
+                        }
+                        //3 将参数交由后台线程去做主要的事情
+                        backgroundWorker.RunWorkerAsync(new InputContainer(tbFilePath.Text));
+                        btnHandle.IsEnabled = false;
+                        btnOpenFile.IsEnabled = false;
                     }
-                    //3 将参数交由后台线程去做主要的事情
-                    backgroundWorker.RunWorkerAsync(new InputContainer(tbFilePath.Text));
-                    btnHandle.IsEnabled = false;
-                    btnOpenFile.IsEnabled = false;
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("The file has been occupied by other programs. Please close the program that occupies the file." + 
+                        Environment.NewLine + 
+                        Environment.NewLine + 
+                        "文件已被其它程序占用，请关闭占用该文件的程序。");
                 }
             }
             else
@@ -155,13 +170,15 @@ namespace CheckTranslationWidthAPP
                     Key = info.StrKey,
                     Chinese = info.Chinese,
                     English = info.English,
-                    TranslationWidthOfControl = Math.Round(simulationWidth,2),
+                    TranslationWidthOfControl = Math.Round(simulationWidth, 2),
                     StardandWidthOfControl = Math.Round(stardandWidth, 2),
                     IsOverWidthOfControl = IsOverWidth,
                     Simulation = strSimulation,
                     StardandWidthOfMethod = Math.Round(stardandWidthByMethod, 2),
                     TranslationWidthOfMethod = Math.Round(simulationWidthByMethod, 2),
                     IsOverWidthOfMethod = IsOverWidthByMethod,
+                    Row = info.Row,
+                    Column = info.Column
                 };
                 //UI显示、进度条更新
                 lock (obj)
@@ -175,7 +192,7 @@ namespace CheckTranslationWidthAPP
                         mProgressBar.Value = progress;
                     });
                     //效果
-                    Thread.Sleep(100);
+                    //Thread.Sleep(50);
                 }
 
                 for (int i = 0; i < dataQueues.Length; i++)
@@ -189,8 +206,10 @@ namespace CheckTranslationWidthAPP
             }
         }
 
-
-
+        /// <summary>
+        /// 处理数据队列线程
+        /// </summary>
+        /// <param name="mDataQueue"></param>
         private void DataQueueThreadStart(object mDataQueue)
         {
             DealQueueData((Queue<DataQueueInfo>)mDataQueue);
@@ -224,7 +243,7 @@ namespace CheckTranslationWidthAPP
             //数据入队
             try
             {
-                QueueUtis.JoinDataQueue(wsTrans, dataQueues, Argument.TargetColumn);
+                QueueUtis.JoinDataQueue(wsTrans, dataQueues, Argument.TargetColumn,threadCount);
             }
             catch (Exception)
             {
@@ -243,12 +262,14 @@ namespace CheckTranslationWidthAPP
                 //控制台 非正常关闭处理
                 else
                 {
-                    ConsoleClose(false);
+                    if (Argument.FilePath != null)
+                    {
+                        ConsoleClose(false);
+                    }
                 }
             }
-
             //处理数据
-            for (int i = 0; i < Environment.ProcessorCount; i++)
+            for (int i = 0; i < threadCount; i++)
             {
                 Thread thread = new Thread(new ParameterizedThreadStart(DataQueueThreadStart));
                 thread.Start(dataQueues[i]);
@@ -278,7 +299,7 @@ namespace CheckTranslationWidthAPP
                 catch (Exception)
                 {
                     Console.WriteLine("write error");
-                    MessageBox.Show("write error"+Environment.NewLine+"文件输出出错");
+                    MessageBox.Show("write error"+Environment.NewLine+ Environment.NewLine + "文件输出出错");
                 }
             }
             //若输出类型未指定 默认文件类型json
@@ -287,7 +308,10 @@ namespace CheckTranslationWidthAPP
                 OutPutOperator.OutPutToJSON(resultList,Path.Combine(baseDiretory, "result.json"));
             }
             //控制台正常关闭处理
-            ConsoleClose(true);
+            if (Argument.FilePath!=null)
+            {
+                ConsoleClose(true);
+            }
         }
 
         /// <summary>
@@ -408,7 +432,7 @@ namespace CheckTranslationWidthAPP
             //若是控制台传参，自动关闭程序
             if (Argument.FilePath == null)
             {
-                MessageBox.Show("Check complete" + Environment.NewLine + "检查完毕");
+                MessageBox.Show("Check complete" + Environment.NewLine+ Environment.NewLine + "检查完毕");
             }
             btnHandle.IsEnabled = true;
             btnOpenFile.IsEnabled = true;

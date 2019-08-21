@@ -105,6 +105,8 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\FastMember.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\log4net.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NBug.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Newtonsoft.Json.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\System.IO.FileSystem.Primitives.dll
@@ -117,15 +119,16 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\log4net.xml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NBug.xml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Newtonsoft.Json.xml
-C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.csprojResolveAssemblyReference.cache
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\MainWindow.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\model\ExcelDictionary.baml
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.g.cs
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\MainWindow.g.cs
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\App.g.cs
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP_MarkupCompile.cache
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP_MarkupCompile.lref
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\App.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\language\en_US.baml
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\language\zh_CN.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.g.resources
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.Properties.Resources.resources
@@ -134,7 +137,3 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.csproj.CopyComplete
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.exe
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.pdb
-C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.g.cs
-C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.baml
-C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.dll
-C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll

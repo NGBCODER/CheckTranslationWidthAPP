@@ -19,5 +19,8 @@ namespace CheckTranslationWidthAPP.model
         public double TranslationWidthOfMethod { set; get; }
         public double StardandWidthOfMethod { set; get; }
         public bool IsOverWidthOfMethod { set; get; }
+
+        public int Row { set; get; }
+        public int Column { set; get; }
     }
 }

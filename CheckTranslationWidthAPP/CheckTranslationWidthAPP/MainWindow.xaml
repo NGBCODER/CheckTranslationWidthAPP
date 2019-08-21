@@ -10,9 +10,9 @@
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
         HorizontalContentAlignment="Center" 
-        WindowState="Maximized"
-        ShowInTaskbar="False">
-
+        WindowState="Maximized">
+    <!--ShowInTaskbar="False"-->
+    
     <Window.Resources>
         <!--工作者线程-->
         <cm:BackgroundWorker
@@ -75,12 +75,12 @@
                     HorizontalAlignment="Right"
                     Width="100" 
                     SelectionChanged="ComboBox_SelectionChanged">
-                        <ComboBoxItem IsSelected="True" Content="{DynamicResource English}"/>
-                        <ComboBoxItem Content="{DynamicResource Chinese}"/>
+                    <ComboBoxItem Content="{DynamicResource English}"/>
+                    <ComboBoxItem IsSelected="True" Content="{DynamicResource Chinese}"/>
                 </ComboBox>
                 <Image 
                 x:Name="imCountry"
-                Source="image/us.jpg"
+                Source="image/china.jpg"
                 Width="40" 
                 Stretch="Fill"/>
             </StackPanel>
@@ -93,7 +93,7 @@
             <Grid
                 HorizontalAlignment="Center"
                 Margin="15,10,15,10">
-                <DataGrid        
+                <DataGrid 
                     x:Name="MDataGrid"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
@@ -152,6 +152,21 @@
                                 <TextBlock Text="{DynamicResource OverLengthOfMethod}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn >
+
+                        <DataGridTextColumn                            
+                            Binding="{Binding Row}">
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource row}"/>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn >
+
+                        <DataGridTextColumn                            
+                            Binding="{Binding Column}">
+                            <DataGridTextColumn.Header>
+                                <TextBlock Text="{DynamicResource column}"/>
+                            </DataGridTextColumn.Header>
+                        </DataGridTextColumn >
+
                     </DataGrid.Columns>
                 </DataGrid>
             </Grid>
@@ -225,7 +240,9 @@
                     Maximum="100"
                     Grid.Row="1"
                     Height="20"
-                    Margin="20,10,20,0" />
+                    Margin="20,10,20,0" 
+                    BorderBrush="White" 
+                    Background="White" />
             </Grid>
         </StackPanel>
         
