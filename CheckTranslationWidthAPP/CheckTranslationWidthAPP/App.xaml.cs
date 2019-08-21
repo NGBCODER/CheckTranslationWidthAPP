@@ -14,7 +14,6 @@ namespace CheckTranslationWidthAPP
     /// </summary>
     public partial class App : Application
     {
-        //test
         protected override void OnStartup(StartupEventArgs e)
         {
             // “ .\” 处理
@@ -38,7 +37,26 @@ namespace CheckTranslationWidthAPP
                     Argument.OutPutType = e.Args[1].ToLower();
                     Argument.OutPutDiretory = e.Args[2];
                     break;
-
+                case 4:
+                    Argument.FilePath = e.Args[0];
+                    Argument.OutPutType = e.Args[1].ToLower();
+                    Argument.OutPutDiretory = e.Args[2];
+                    try
+                    {
+                        var t1 = e.Args[3].ToString();
+                        Argument.TargetColumn = Convert.ToInt32(e.Args[3].ToString());
+                        if (Argument.TargetColumn<=0)
+                        {
+                            throw new Exception();
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Input column position is incorrect");
+                        Console.ReadKey();
+                        Environment.Exit(0);
+                    }
+                    break;
             }
             //验证，文件输入有误
             if (e.Args.Length >= 1)
@@ -130,7 +148,5 @@ namespace CheckTranslationWidthAPP
             #endregion
             base.OnStartup(e);
         }
-
-
     }
 }

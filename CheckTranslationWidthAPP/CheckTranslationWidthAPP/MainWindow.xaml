@@ -9,7 +9,9 @@
         Icon="icon/CheckWidth.ico" 
         Loaded="Window_Loaded"
         WindowStartupLocation="CenterScreen"
-        HorizontalContentAlignment="Center" WindowState="Maximized">
+        HorizontalContentAlignment="Center" 
+        WindowState="Maximized"
+        ShowInTaskbar="False">
 
     <Window.Resources>
         <!--工作者线程-->

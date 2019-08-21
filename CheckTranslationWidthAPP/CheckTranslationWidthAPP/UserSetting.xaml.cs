@@ -25,30 +25,46 @@ namespace CheckTranslationWidthAPP
                 }
                 this.Resources.MergedDictionaries.Add(MyResourceDictionary.resource);
             }
-            //默认值
-            tbFileSavePath.Text = AppDomain.CurrentDomain.BaseDirectory;
-        }
-
-        protected override void OnClosed(EventArgs e)
-        {
-            //保存内容
-            Argument.OutPutDiretory = tbFileSavePath.Text;
-            if ((bool)rbJSON.IsChecked)
+            //是否更新设置值,否则使用默认值
+            if (Argument.FilePath!=null)
             {
+                tbFileSavePath.Text = Argument.OutPutDiretory;
+            }
+            else
+            {
+                tbFileSavePath.Text = AppDomain.CurrentDomain.BaseDirectory;
+                Argument.OutPutDiretory = AppDomain.CurrentDomain.BaseDirectory;
+            }
+            //输出类型
+            if (Argument.OutPutType != null)
+            {
+                if (Argument.OutPutType.ToLower().Equals("json"))
+                {
+                    rbJSON.IsChecked = true;
+                }
+                else if (Argument.OutPutType.ToLower().Equals("xml"))
+                {
+                    rbXML.IsChecked = true;
+                }
+            }
+            else
+            {
+                rbJSON.IsChecked = true;
                 Argument.OutPutType = "json";
             }
-            if ((bool)rbXML.IsChecked)
+
+            //列
+            if (Argument.TargetColumn > 0)
             {
-                Argument.OutPutType = "xml";
+                TargetColumn.Text = Argument.TargetColumn.ToString();
             }
-            if (TargetColumn.Text.Equals(""))
+            else
             {
-                //默认译文在第五行
                 TargetColumn.Text = "5";
                 Argument.TargetColumn = 5;
             }
-            base.OnClosed(e);
         }
+
         /// <summary>
         /// 保存路径
         /// </summary>
@@ -65,7 +81,6 @@ namespace CheckTranslationWidthAPP
             }
         }
 
-
         /// <summary>
         /// 验证用户输入
         /// </summary>
@@ -75,21 +90,40 @@ namespace CheckTranslationWidthAPP
         {
             string strTarget = TargetColumn.Text;
 
+            //验证文件夹位置
             try
             {
-                Argument.TargetColumn = Convert.ToInt32(strTarget);
-            }
-            catch (Exception)
-            {
-                MessageBox.Show("The number you entered is incorrect." + Environment.NewLine + "你输入的数字不正确");
-                TargetColumn.Text = string.Empty;
-                TargetColumn.BorderBrush = Brushes.Red;
-            }
-            try
-            {
+                //文件夹不存在
                 if (Directory.Exists(tbFileSavePath.Text)==false)
                 {
+                    //尝试创建
                     Directory.CreateDirectory(tbFileSavePath.Text);
+                }
+                //文件夹已存在,保存设置值
+                Argument.OutPutDiretory = tbFileSavePath.Text;
+
+                //验证列位置
+                try
+                {
+                    //保存列位置
+                    Argument.TargetColumn = Convert.ToInt32(strTarget);
+                    //成功提示
+                    MessageBoxResult result= MessageBox.Show("Save Success" + Environment.NewLine + "保存成功");
+                }
+                catch (Exception)
+                {
+                    MessageBox.Show("The number you entered is incorrect." + Environment.NewLine + "你输入的数字不正确");
+                    TargetColumn.Text = string.Empty;
+                    TargetColumn.BorderBrush = Brushes.Red;
+                }
+                //保存输出类型
+                if ((bool)rbJSON.IsChecked)
+                {
+                    Argument.OutPutType = "json";
+                }
+                else
+                {
+                    Argument.OutPutType = "xml";
                 }
             }
             catch (Exception)
@@ -97,8 +131,8 @@ namespace CheckTranslationWidthAPP
                 MessageBox.Show("The folder you entered does not exist." + Environment.NewLine + "你输入的文件夹不存在");
                 tbFileSavePath.Text = string.Empty;
                 tbFileSavePath.BorderBrush = Brushes.Red;
-
             }
+            
         }
     }
 }

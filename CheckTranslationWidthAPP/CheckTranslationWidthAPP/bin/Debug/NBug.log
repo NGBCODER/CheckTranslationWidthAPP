@@ -14,3 +14,15 @@ NBugTrace: Starting to handle a System.AppDomain.UnhandledException.
 NBugTrace: Starting to generate a bug report for the exception.
 NBugTrace: Creating report file to custom path: C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132107457763281628.zip
 NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 3
+NBugTrace: Starting to handle a System.Windows.Application.DispatcherUnhandledException.
+NBugTrace: Starting to generate a bug report for the exception.
+NBugTrace: Creating report file to custom path: C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132108454617102755.zip
+NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 4
+NBugTrace: Starting to handle a System.AppDomain.UnhandledException.
+NBugTrace: Starting to generate a bug report for the exception.
+NBugTrace: Creating report file to custom path: C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132108491077244335.zip
+NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 5
+NBugTrace: Starting to handle a System.AppDomain.UnhandledException.
+NBugTrace: Starting to generate a bug report for the exception.
+NBugTrace: Creating report file to custom path: C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Crash\Exception_132108492365054910.zip
+NBugTrace: Created a new report file. Currently the number of report files queued to be send is: 6

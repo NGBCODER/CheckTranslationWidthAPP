@@ -39,7 +39,7 @@
                         Margin="10,0,0,0"
                         Content="{DynamicResource SavaPath}"/>
                     <TextBox 
-                        MinWidth="400"
+                        MinWidth="600"
                         MaxWidth="800"
                         x:Name="tbFileSavePath"/>
                     <Button 
