@@ -125,6 +125,7 @@
     <Compile Include="CommonUnit\FileCreateTimeComparer.cs" />
     <Compile Include="CommonUnit\SortHelper.cs" />
     <Compile Include="model\Argument.cs" />
+    <Compile Include="model\Configura.cs" />
     <Compile Include="model\InputContainer.cs" />
     <Compile Include="model\DataQueueInfo.cs" />
     <Compile Include="model\LogHelper.cs" />

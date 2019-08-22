@@ -75,6 +75,24 @@ namespace CheckTranslationWidthAPP
         }
 
         /// <summary>
+        /// 打开文件对话框
+        /// </summary>
+        private void MopenFileDialog(string initialDirectory)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog();
+            fileDialog.InitialDirectory = initialDirectory;
+            try
+            {
+                fileDialog.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("无法打开结果文件!");
+            }
+
+        }
+
+        /// <summary>
         /// 初次加载页面
         /// </summary>
         /// <param name="sender"></param>
@@ -82,19 +100,21 @@ namespace CheckTranslationWidthAPP
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
             //控制台方式启动处理
-            if (Argument.FilePath!=null)
+            if (Argument.FilePath!=null && Argument.OutPutDiretory!=null)
             {
                 //this.ShowInTaskbar = false;
                 this.Hide();
                 //设置UI的文件位置
                 viewData.StrFilePath = Argument.FilePath;
+                //xlsx新文件路径
+                string xlsxFilePath = Argument.FilePath;
                 //格式转换xls-->xlsx
                 if (Argument.FilePath.EndsWith(".xls"))
                 {
-                    Argument.FilePath = ConvertWorkbook(Argument.FilePath);
+                    xlsxFilePath = ConvertWorkbook(Argument.FilePath,Argument.OutPutDiretory);
                 }
                 // 将参数交由后台线程去做主要的事情
-                backgroundWorker.RunWorkerAsync(new InputContainer(Argument.FilePath));       
+                backgroundWorker.RunWorkerAsync(new InputContainer(xlsxFilePath));       
             }
         }
 
@@ -109,21 +129,21 @@ namespace CheckTranslationWidthAPP
             string filePath = tbFilePath.Text;
             if (File.Exists(filePath))
             {
+                //还没设置译文列位置
+                if (Argument.TargetColumn > 0 == false)
+                {
+                    User_SetUp(sender, e);
+                }
                 //格式转换xls-->xlsx
                 if (filePath.EndsWith(".xls"))
                 {
-                    filePath = ConvertWorkbook(filePath);
+                    filePath = ConvertWorkbook(filePath, Argument.OutPutDiretory);
                 }
                 try
                 {
                     //2 判断是否规范 
                     if (ExcelUtils.IsTranslationFile(filePath))
                     {
-                        //还没设置译文列位置
-                        if (Argument.TargetColumn > 0 == false)
-                        {
-                            User_SetUp(sender, e);
-                        }
                         //3 将参数交由后台线程去做主要的事情
                         backgroundWorker.RunWorkerAsync(new InputContainer(filePath));
                         btnHandle.IsEnabled = false;
@@ -318,6 +338,7 @@ namespace CheckTranslationWidthAPP
             if (Argument.OutPutDiretory!=null && Directory.Exists(Argument.OutPutDiretory))
             {
                 baseDiretory = Argument.OutPutDiretory;
+                Argument.OutPutDiretory = baseDiretory;
             }
             //默认文件输出路径
             else
@@ -345,11 +366,12 @@ namespace CheckTranslationWidthAPP
             }
 
             //输出excel 
+            var t1 = dicOverWidthLocation;
             PaintCellColorOfDic(dicOverWidthLocation,wsTrans,XLColor.PastelRed);
-            
-            wbTrans.SaveAs(baseDiretory+"输出结果"+"(Output Result).xlsx");
-
+            wbTrans.SaveAs(Path.Combine(baseDiretory, "输出结果.xlsx"));
             #endregion
+
+
 
             #region 控制台正常关闭处理
             if (Argument.FilePath!=null)
@@ -363,16 +385,14 @@ namespace CheckTranslationWidthAPP
         /// xls转为xlsx
         /// </summary>
         /// <param name="filePath"></param>
-        private string ConvertWorkbook(string filePath)
+        private string ConvertWorkbook(string filePath,string outDiretory)
         {
             //文件信息
             FileInfo fileInfo = new FileInfo(filePath);
-            //基本路径
-            string baseDiretory = fileInfo.DirectoryName;
             //新文件名称
             string newFileName = fileInfo.Name.Replace(".xls", ".xlsx");
             //新文件全名
-            string fullName = Path.Combine(baseDiretory, newFileName);
+            string fullName = Path.Combine(outDiretory, newFileName);
             //输入流
             FileStream fs = new FileStream(filePath, FileMode.Open,FileAccess.Read);
             //xls工作簿
@@ -425,8 +445,6 @@ namespace CheckTranslationWidthAPP
         /// </summary>
         /// <param name="dic"></param>
         /// <param name="mSheet"></param>
-        /// <param name="row"></param>
-        /// <param name="column"></param>
         /// <param name="color"></param>
         private void PaintCellColorOfDic(Dictionary<int,int> dic , IXLWorksheet mSheet, XLColor color)
         {
@@ -600,10 +618,11 @@ namespace CheckTranslationWidthAPP
         private void BackgroundWorker_OnRunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             
-            //若是控制台传参，自动关闭程序
+            //若不是控制台传参，发出提示与打开文件对话框
             if (Argument.FilePath == null)
             {
                 MessageBox.Show("Check complete" + Environment.NewLine+ Environment.NewLine + "检查完毕");
+                MopenFileDialog(Argument.OutPutDiretory);
             }
             btnHandle.IsEnabled = true;
             btnOpenFile.IsEnabled = true;

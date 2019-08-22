@@ -25,6 +25,8 @@ namespace CheckTranslationWidthAPP.Utils
             File.WriteAllText(path, sw.GetStringBuilder().ToString());
         }
 
+
+
         /// <summary>
         /// 将结果输出为XML数据
         /// </summary>

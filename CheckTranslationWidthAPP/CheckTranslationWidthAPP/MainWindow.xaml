@@ -98,6 +98,7 @@
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn 
+                            MinWidth="50"
                             SortDirection="Ascending"
                             Binding="{Binding No}">
                             <DataGridTextColumn.Header>
@@ -106,6 +107,7 @@
                         </DataGridTextColumn >
                         
                         <DataGridTextColumn
+                            MinWidth="120"
                             Binding="{Binding Simulation}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource Translation}"/>
@@ -113,6 +115,7 @@
                         </DataGridTextColumn >
                         
                         <DataGridTextColumn 
+                            MinWidth="100"
                             Binding="{Binding TranslationWidthOfControl}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource WidthOfControl}"/>
@@ -120,6 +123,7 @@
                         </DataGridTextColumn >
                     
                         <DataGridTextColumn
+                            MinWidth="100"
                             Binding="{Binding StardandWidthOfControl}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource StandardWidthOfControl}"/>
@@ -127,6 +131,7 @@
                         </DataGridTextColumn >
                         
                         <DataGridTextColumn 
+                            MinWidth="100"
                             Binding="{Binding IsOverWidthOfControl}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource OverLengthOfControl}"/>
@@ -134,6 +139,7 @@
                         </DataGridTextColumn >
                         <!--方法方式-->
                         <DataGridTextColumn 
+                            MinWidth="100"
                             Binding="{Binding TranslationWidthOfMethod}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource WidthOfMethod}"/>
@@ -141,27 +147,31 @@
                         </DataGridTextColumn >
                         
                         <DataGridTextColumn 
+                            MinWidth="100"
                             Binding="{Binding StardandWidthOfMethod}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource StandardWidthOfMethod}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn >
                         
-                        <DataGridTextColumn                            
+                        <DataGridTextColumn        
+                            MinWidth="100"
                             Binding="{Binding IsOverWidthOfMethod}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource OverLengthOfMethod}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn >
 
-                        <DataGridTextColumn                            
+                        <DataGridTextColumn           
+                            MinWidth="100"
                             Binding="{Binding Row}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource row}"/>
                             </DataGridTextColumn.Header>
                         </DataGridTextColumn >
 
-                        <DataGridTextColumn                            
+                        <DataGridTextColumn     
+                            MinWidth="100"
                             Binding="{Binding Column}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource column}"/>

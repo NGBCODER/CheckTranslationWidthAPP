@@ -4,6 +4,10 @@ using System;
 using System.IO;
 using System.Windows;
 using System.Windows.Media;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using CheckTranslationWidthAPP.Utils;
+
 
 namespace CheckTranslationWidthAPP
 {
@@ -12,6 +16,9 @@ namespace CheckTranslationWidthAPP
     /// </summary>
     public partial class UserSetting : Window
     {
+        Configura configura = new Configura();
+        string jsonSetFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "configura.json");
+
         public UserSetting()
         {
             InitializeComponent();
@@ -25,44 +32,45 @@ namespace CheckTranslationWidthAPP
                 }
                 this.Resources.MergedDictionaries.Add(MyResourceDictionary.resource);
             }
-            //是否更新设置值,否则使用默认值
-            if (Argument.FilePath!=null)
+            //读取json文件
+            if (File.Exists(jsonSetFile)==false)
             {
-                tbFileSavePath.Text = Argument.OutPutDiretory;
+                //创建初始json文件
+                
+                configura.OutPutDiretory = AppDomain.CurrentDomain.BaseDirectory;
+                configura.OutPutType = "json";
+                configura.TargetColumn = 5;
+                SetConfiguraToJSON(configura, jsonSetFile);
             }
             else
             {
-                tbFileSavePath.Text = AppDomain.CurrentDomain.BaseDirectory;
-                Argument.OutPutDiretory = AppDomain.CurrentDomain.BaseDirectory;
-            }
-            //输出类型
-            if (Argument.OutPutType != null)
-            {
-                if (Argument.OutPutType.ToLower().Equals("json"))
-                {
-                    rbJSON.IsChecked = true;
-                }
-                else if (Argument.OutPutType.ToLower().Equals("xml"))
-                {
-                    rbXML.IsChecked = true;
-                }
-            }
-            else
-            {
-                rbJSON.IsChecked = true;
-                Argument.OutPutType = "json";
+                //读取json参数
+                StreamReader file = File.OpenText(jsonSetFile);
+                JsonTextReader reader = new JsonTextReader(file);
+                JObject jsonObject = (JObject)JToken.ReadFrom(reader);
+                //配置参数
+                Argument.OutPutDiretory = (string) jsonObject["OutPutDiretory"];
+                Argument.OutPutType = (string)jsonObject["OutPutType"];
+                Argument.TargetColumn = (int)jsonObject["TargetColumn"];
+                file.Close();
             }
 
-            //列
-            if (Argument.TargetColumn > 0)
+            //保存路径
+            tbFileSavePath.Text = Argument.OutPutDiretory;
+
+            //文件类型
+            if (Argument.OutPutType.ToLower().Equals("json"))
             {
-                TargetColumn.Text = Argument.TargetColumn.ToString();
+                rbJSON.IsChecked = true;
             }
-            else
+            else if (Argument.OutPutType.ToLower().Equals("xml"))
             {
-                TargetColumn.Text = "5";
-                Argument.TargetColumn = 5;
+                rbXML.IsChecked = true;
             }
+
+            //第几列
+            TargetColumn.Text = Argument.TargetColumn.ToString();
+
         }
 
         /// <summary>
@@ -82,13 +90,24 @@ namespace CheckTranslationWidthAPP
         }
 
         /// <summary>
+        /// 将配置结果生成json数据
+        /// </summary>
+        /// <returns></returns>
+        public static void SetConfiguraToJSON(Configura configura, string path)
+        {
+            JsonSerializer jsonSerializer = new JsonSerializer();
+            StringWriter sw = new StringWriter();
+            jsonSerializer.Serialize(new JsonTextWriter(sw), configura);
+            File.WriteAllText(path, sw.GetStringBuilder().ToString());
+        }
+
+        /// <summary>
         /// 验证用户输入
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void checkUserInput(object sender, RoutedEventArgs e)
         {
-            string strTarget = TargetColumn.Text;
 
             //验证文件夹位置
             try
@@ -106,6 +125,7 @@ namespace CheckTranslationWidthAPP
                 try
                 {
                     //保存列位置
+                    string strTarget = TargetColumn.Text;
                     Argument.TargetColumn = Convert.ToInt32(strTarget);
                     //成功提示
                     MessageBoxResult result= MessageBox.Show("Save Success" + Environment.NewLine + Environment.NewLine + "保存成功");
@@ -113,7 +133,7 @@ namespace CheckTranslationWidthAPP
                 catch (Exception)
                 {
                     MessageBox.Show("The number you entered is incorrect." + Environment.NewLine + Environment.NewLine + "你输入的数字不正确");
-                    TargetColumn.Text = string.Empty;
+                    TargetColumn.Text = String.Empty;
                     TargetColumn.BorderBrush = Brushes.Red;
                 }
                 //保存输出类型
@@ -129,10 +149,15 @@ namespace CheckTranslationWidthAPP
             catch (Exception)
             {
                 MessageBox.Show("The folder you entered does not exist." + Environment.NewLine + Environment.NewLine + "你输入的文件夹不存在");
-                tbFileSavePath.Text = string.Empty;
+                tbFileSavePath.Text = String.Empty;
                 tbFileSavePath.BorderBrush = Brushes.Red;
             }
-            
+
+            //保存用户设置
+            configura.OutPutDiretory = Argument.OutPutDiretory;
+            configura.OutPutType = Argument.OutPutType;
+            configura.TargetColumn = Argument.TargetColumn;
+            SetConfiguraToJSON(configura, jsonSetFile);
         }
     }
 }
