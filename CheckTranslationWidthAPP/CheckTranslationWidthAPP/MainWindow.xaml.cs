@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using CheckTranslationWidthAPP.model;
 using CheckTranslationWidthAPP.Utils;
@@ -10,9 +11,15 @@ using Microsoft.Win32;
 using ClosedXML.Excel;
 using System.Threading;
 using System.Windows.Controls;
-using System.Windows.Media;
 using System.Windows.Threading;
 using System.Windows.Media.Imaging;
+using NPOI.HSSF.UserModel;
+using NPOI.SS.Formula.Functions;
+using NPOI.SS.UserModel;
+using NPOI.XSSF.UserModel;
+using FontFamily = System.Windows.Media.FontFamily;
+using HorizontalAlignment = System.Windows.HorizontalAlignment;
+using VerticalAlignment = System.Windows.VerticalAlignment;
 
 namespace CheckTranslationWidthAPP
 {
@@ -22,22 +29,22 @@ namespace CheckTranslationWidthAPP
     /// </summary>
     public partial class MainWindow : Window
     {
+        #region 全局变量
         private delegate void beginInvokeDelegate();
         private AutoResetEvent[] autoResetEvent;
         private static List<ResultQueueInfo> resultList = new List<ResultQueueInfo>();
-        private static int rows = 0;
         public static int threadCount = 0;
+        private Dictionary<int,int> dicOverWidthLocation= new Dictionary<int,int>();
         //原始数据队列数组
         Queue<DataQueueInfo>[] dataQueues;
 
-        //结果队列
-        Queue<ResultQueueInfo> resultQueue = new Queue<ResultQueueInfo>();
         //lock
         private Object obj = new object();
         //UI数据
         private ViewData viewData = new ViewData();
         //后台线程
         private BackgroundWorker backgroundWorker;
+        #endregion
 
         public MainWindow()
         {
@@ -81,6 +88,11 @@ namespace CheckTranslationWidthAPP
                 this.Hide();
                 //设置UI的文件位置
                 viewData.StrFilePath = Argument.FilePath;
+                //格式转换xls-->xlsx
+                if (Argument.FilePath.EndsWith(".xls"))
+                {
+                    Argument.FilePath = ConvertWorkbook(Argument.FilePath);
+                }
                 // 将参数交由后台线程去做主要的事情
                 backgroundWorker.RunWorkerAsync(new InputContainer(Argument.FilePath));       
             }
@@ -94,20 +106,26 @@ namespace CheckTranslationWidthAPP
         private void click_BeginCheckFile(object sender, RoutedEventArgs e)
         {
             //1 首先要有译文
-            if (File.Exists(tbFilePath.Text))
+            string filePath = tbFilePath.Text;
+            if (File.Exists(filePath))
             {
+                //格式转换xls-->xlsx
+                if (filePath.EndsWith(".xls"))
+                {
+                    filePath = ConvertWorkbook(filePath);
+                }
                 try
                 {
                     //2 判断是否规范 
-                    if (ExcelUtils.IsTranslationFile(tbFilePath.Text))
+                    if (ExcelUtils.IsTranslationFile(filePath))
                     {
-                        //还没设置多行位置
+                        //还没设置译文列位置
                         if (Argument.TargetColumn > 0 == false)
                         {
                             User_SetUp(sender, e);
                         }
                         //3 将参数交由后台线程去做主要的事情
-                        backgroundWorker.RunWorkerAsync(new InputContainer(tbFilePath.Text));
+                        backgroundWorker.RunWorkerAsync(new InputContainer(filePath));
                         btnHandle.IsEnabled = false;
                         btnOpenFile.IsEnabled = false;
                     }
@@ -134,7 +152,7 @@ namespace CheckTranslationWidthAPP
         {
             while (queueInfo.Count > 0)
             {
-                //出队，处理数据
+                #region 出队，处理数据
                 DataQueueInfo info = queueInfo.Dequeue();
                 //UI方式中英宽度
                 double chineseWidth = GetActualWidth(info.Chinese);
@@ -149,8 +167,6 @@ namespace CheckTranslationWidthAPP
                 //基本字符串
                 string strBase = chineseWidth >= englishWidth ? info.Chinese : info.English;
 
-                //模拟译文   
-                //string strSimulation = GetSimulation(strBase);
                 //真正译文
                 string strSimulation = info.TargtTranslation;
 
@@ -162,6 +178,7 @@ namespace CheckTranslationWidthAPP
                 double simulationWidthByMethod = GetActualWidthByMethod(strSimulation);
                 //方法方式是否超长
                 bool IsOverWidthByMethod = simulationWidthByMethod > stardandWidthByMethod ? true : false;
+                #endregion
 
                 //封装处理结果
                 ResultQueueInfo resultQueueInfo = new ResultQueueInfo
@@ -180,24 +197,23 @@ namespace CheckTranslationWidthAPP
                     Row = info.Row,
                     Column = info.Column
                 };
-                //UI显示、进度条更新
+
+                //获取超标准宽度数据
+                if (IsOverWidthByMethod)
+                {
+                    dicOverWidthLocation.Add(info.Row,info.Column);
+                }
+
+                //添加到集合
                 lock (obj)
                 {
                     resultList.Add(resultQueueInfo);
-                    int progress = resultList.Count;
-                    Dispatcher.Invoke(delegate ()
-                    {
-                        MDataGrid.ItemsSource = null;
-                        MDataGrid.ItemsSource = resultList;
-                        mProgressBar.Value = progress;
-                    });
-                    //效果
-                    //Thread.Sleep(50);
                 }
 
+                //查询是否队列是否已经将数据处理完毕
                 for (int i = 0; i < dataQueues.Length; i++)
                 {
-                    //队列处理完毕
+                    //发出该队列数据处理完毕信号
                     if (queueInfo.Equals(dataQueues[i]) && queueInfo.Count == 0)
                     {
                         autoResetEvent[i].Set();
@@ -216,31 +232,28 @@ namespace CheckTranslationWidthAPP
         }
 
         /// <summary>
-        /// 后台主要方法
+        /// 后台主要处理过程
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void BackgroundWorker_OnDoWork(object sender, DoWorkEventArgs e)
         {
-            #region
+            #region 初始化处理
             //清空容器中上一次的数据
             resultList.Clear();
+            dicOverWidthLocation.Clear();
+
             //UI参数
             InputContainer container = (InputContainer) e.Argument;
+
             //工作簿
             IXLWorkbook wbTrans = new XLWorkbook(container.FilePath);
             //sheet
             IXLWorksheet wsTrans = wbTrans.Worksheet(1);
-            //数据条数（为了设置进度条的最大值）
-            rows = wsTrans.RangeUsed().RowCount()-2;
-
-            //设置精度条的最大值
-            this.Dispatcher.Invoke((Action)delegate () {
-                mProgressBar.Maximum = rows;
-            });
+            
             #endregion
 
-            //数据入队
+            #region 数据入队
             try
             {
                 QueueUtis.JoinDataQueue(wsTrans, dataQueues, Argument.TargetColumn,threadCount);
@@ -252,7 +265,6 @@ namespace CheckTranslationWidthAPP
                 Dispatcher.Invoke(delegate ()
                 {
                     MDataGrid.ItemsSource = null;
-                    mProgressBar.Value = 0;
                 });
                 //UI方式 非正常关闭处理
                 if (Argument.FilePath==null)
@@ -268,17 +280,40 @@ namespace CheckTranslationWidthAPP
                     }
                 }
             }
-            //处理数据
+            #endregion
+
+            #region 处理数据
+            //显示
+            HiddenOrDisplay(btnTest,false);
+
+            //启动线程
             for (int i = 0; i < threadCount; i++)
             {
                 Thread thread = new Thread(new ParameterizedThreadStart(DataQueueThreadStart));
                 thread.Start(dataQueues[i]);
             }
+            #endregion
 
-            //等待数据处理完毕
+            #region  等待数据处理完毕
+
             AutoResetEvent.WaitAll(autoResetEvent);
 
-            //输出路径获取
+            #endregion
+
+            #region 数据显示
+            //隐藏
+            HiddenOrDisplay(btnTest,true);
+            //排序
+            SortList(resultList);
+            Dispatcher.Invoke(delegate ()
+            {
+                MDataGrid.ItemsSource = null;
+                MDataGrid.ItemsSource = resultList;
+            });
+            #endregion
+
+            #region 数据输出 xml、json  还有excel文件（标记超长宽度的位置）
+            //1 输出路径获取
             string baseDiretory = string.Empty;
             if (Argument.OutPutDiretory!=null && Directory.Exists(Argument.OutPutDiretory))
             {
@@ -289,7 +324,8 @@ namespace CheckTranslationWidthAPP
             {
                 baseDiretory = AppDomain.CurrentDomain.BaseDirectory;
             }
-            //输出类型判断
+
+            //2 输出
             if (Argument.OutPutType!=null)
             {
                 try
@@ -307,10 +343,145 @@ namespace CheckTranslationWidthAPP
             {
                 OutPutOperator.OutPutToJSON(resultList,Path.Combine(baseDiretory, "result.json"));
             }
-            //控制台正常关闭处理
+
+            //输出excel 
+            PaintCellColorOfDic(dicOverWidthLocation,wsTrans,XLColor.PastelRed);
+            
+            wbTrans.SaveAs(baseDiretory+"输出结果"+"(Output Result).xlsx");
+
+            #endregion
+
+            #region 控制台正常关闭处理
             if (Argument.FilePath!=null)
             {
                 ConsoleClose(true);
+            }
+            #endregion
+        }
+
+        /// <summary>
+        /// xls转为xlsx
+        /// </summary>
+        /// <param name="filePath"></param>
+        private string ConvertWorkbook(string filePath)
+        {
+            //文件信息
+            FileInfo fileInfo = new FileInfo(filePath);
+            //基本路径
+            string baseDiretory = fileInfo.DirectoryName;
+            //新文件名称
+            string newFileName = fileInfo.Name.Replace(".xls", ".xlsx");
+            //新文件全名
+            string fullName = Path.Combine(baseDiretory, newFileName);
+            //输入流
+            FileStream fs = new FileStream(filePath, FileMode.Open,FileAccess.Read);
+            //xls工作簿
+            HSSFWorkbook wbXls = new HSSFWorkbook(fs);
+            //工作表
+            HSSFSheet xlsSheet = (HSSFSheet) wbXls.GetSheetAt(0);
+            //最后一行
+            IRow lastRow = xlsSheet.GetRow(xlsSheet.LastRowNum);
+            //最后一列
+            var lastColumn = lastRow.LastCellNum;
+
+            //xls文件
+            XSSFWorkbook wbXlsx = new XSSFWorkbook();
+            ISheet xlsxSheet= wbXlsx.CreateSheet(xlsSheet.SheetName);
+
+            for (int i = 0; i <= xlsSheet.LastRowNum; i++)
+            {
+                IRow row = xlsxSheet.CreateRow(i);
+                for (int j = 0; j <= lastColumn ; j++)
+                {
+                    if (xlsSheet.GetRow(i).GetCell(j)!=null)
+                    {
+                        row.CreateCell(j).SetCellValue(xlsSheet.GetRow(i).GetCell(j).ToString());
+                    }
+                }
+            }
+            //写入文件
+            FileStream sw = File.Create(fullName);
+            wbXlsx.Write(sw);
+            sw.Close();
+            //获取内容，填入新表格
+            return fullName;
+        }
+
+        /// <summary>
+        /// 绘制指定行与列的颜色
+        /// </summary>
+        /// <param name="row">指定列</param>
+        /// <param name="column">指定行</param>
+        private void PaintCellColor(IXLWorksheet mSheet, int row, int column, XLColor color)
+        {
+            //找到指定位置的单元格
+            IXLCell cell = mSheet.Row(row).Cell(column);
+            //绘色
+            cell.Style.Fill.BackgroundColor = color;
+        }
+
+        /// <summary>
+        /// 绘制字典里的所有单元格的颜色，为了标记
+        /// </summary>
+        /// <param name="dic"></param>
+        /// <param name="mSheet"></param>
+        /// <param name="row"></param>
+        /// <param name="column"></param>
+        /// <param name="color"></param>
+        private void PaintCellColorOfDic(Dictionary<int,int> dic , IXLWorksheet mSheet, XLColor color)
+        {
+            foreach (var location in dic)
+            {
+                PaintCellColor(mSheet,location.Key,location.Value, color);
+            }
+        }
+        /// <summary>
+        /// 按钮的显示与隐藏
+        /// </summary>
+        /// <param name="bt"></param>
+        /// <param name="isHidden"></param>
+        private void HiddenOrDisplay(Button bt,bool isHidden)
+        {
+            if (isHidden)
+            {
+                Dispatcher.Invoke(delegate ()
+                {
+                    bt.Visibility = Visibility.Hidden;
+                });
+            }
+            else
+            {
+                Dispatcher.Invoke(delegate ()
+                {
+                    bt.Visibility = Visibility.Visible;
+                });
+            }
+        }
+
+        /// <summary>
+        /// 处理集合的排序问题，按N0升序排序
+        /// </summary>
+        /// <param name="lists"></param>
+        private void SortList(List<ResultQueueInfo> lists)
+        {
+            Dictionary<int, ResultQueueInfo> TransferStation = new Dictionary<int, ResultQueueInfo>();
+            int count = 1;
+            while (count<=lists.Count)
+            {
+                //取数据
+                foreach (var info in lists)
+                {
+                    if (info.No==count)
+                    {
+                        TransferStation.Add(count, info);
+                    }
+                }
+                count++;
+            }
+            lists.Clear();
+            foreach (var info in TransferStation)
+            {
+                lists.Add(info.Value);    
             }
         }
 
@@ -322,12 +493,12 @@ namespace CheckTranslationWidthAPP
             if (isNormalClose)
             {
                 Console.WriteLine("success");
-                Console.ReadKey();
+                //Console.ReadKey();
             }
             else
             {
                 Console.WriteLine("fail");
-                Console.ReadKey();
+                //Console.ReadKey();
             }
             if (Argument.FilePath != null)
             {
@@ -418,7 +589,7 @@ namespace CheckTranslationWidthAPP
         /// <param name="e"></param>
         private void BackgroundWorker_OnProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            mProgressBar.Value = e.ProgressPercentage;
+            //mProgressBar.Value = e.ProgressPercentage;
         }
 
         /// <summary>
@@ -447,7 +618,7 @@ namespace CheckTranslationWidthAPP
             fileDialog.Multiselect = true;
             fileDialog.Title = "请选择文件";
             fileDialog.DefaultExt = "xlsx";
-            fileDialog.Filter = "xlsx file|*.xlsx|json file|*.json";
+            fileDialog.Filter = "xlsx file|*.xlsx|xls file|*.xls|json file|*.json";
             if ((bool)fileDialog.ShowDialog())
             {
                 string strFilepath = fileDialog.FileName;
@@ -477,8 +648,7 @@ namespace CheckTranslationWidthAPP
                 {
                     MessageBox.Show(e2.Message);
                 }
-            }
-           //中文
+            } //中文
             else if(cmbSelectLanguage.SelectedIndex == 1)
             {
                 try

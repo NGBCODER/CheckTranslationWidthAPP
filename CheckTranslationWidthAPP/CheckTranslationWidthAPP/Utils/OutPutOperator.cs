@@ -41,13 +41,16 @@ namespace CheckTranslationWidthAPP.Utils
             {
                 var node = new XElement("result",
                         new XElement("No", info.No.ToString()),
-                        new XElement("Translation", info.Simulation.ToString()),
-                        new XElement("WidthOfControl", info.TranslationWidthOfControl.ToString()),
-                        new XElement("StardandWidthOfControl", info.StardandWidthOfControl.ToString()),
-                        new XElement("IsOverWidthOfControl", info.IsOverWidthOfControl.ToString()),
-                        new XElement("WidthOfMethod", info.TranslationWidthOfMethod.ToString()),
-                        new XElement("StardandWidthOfMethod", info.StardandWidthOfMethod.ToString()),
-                        new XElement("IsOverWidthOfMethod", info.IsOverWidthOfMethod.ToString()));
+                        new XElement("Translation", info.Simulation),
+                        new XElement("WidthOfControl", info.TranslationWidthOfControl),
+                        new XElement("StardandWidthOfControl", info.StardandWidthOfControl),
+                        new XElement("IsOverWidthOfControl", info.IsOverWidthOfControl),
+                        new XElement("WidthOfMethod", info.TranslationWidthOfMethod),
+                        new XElement("StardandWidthOfMethod", info.StardandWidthOfMethod),
+                        new XElement("IsOverWidthOfMethod", info.IsOverWidthOfMethod),
+                        new XElement("row", info.Row),
+                        new XElement("column", info.Column)
+                        );
 
                 xmlFile.Add(node);
             }

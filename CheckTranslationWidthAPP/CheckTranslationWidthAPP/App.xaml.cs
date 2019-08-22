@@ -94,8 +94,8 @@ namespace CheckTranslationWidthAPP
                 }
             }
 
-
-
+            #region 日志
+            /*
             //日志记录初始化
             LogHelper.Init();
             LogHelper.Logger.Info("Started");
@@ -143,6 +143,8 @@ namespace CheckTranslationWidthAPP
             //AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             #endregion
             base.OnStartup(e);
+            */
+            #endregion
         }
     }
 }

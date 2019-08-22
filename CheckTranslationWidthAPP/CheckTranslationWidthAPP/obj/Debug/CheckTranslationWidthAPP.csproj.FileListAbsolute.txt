@@ -109,6 +109,10 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Microsoft.WindowsAPICodePack.Shell.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NBug.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Newtonsoft.Json.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NPOI.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NPOI.OOXML.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NPOI.OpenXml4Net.dll
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NPOI.OpenXmlFormats.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\System.IO.FileSystem.Primitives.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\System.IO.Packaging.dll
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\ClosedXML.pdb
@@ -119,6 +123,7 @@ C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\Chec
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\log4net.xml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\NBug.xml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\bin\Debug\Newtonsoft.Json.xml
+C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\CheckTranslationWidthAPP.csprojResolveAssemblyReference.cache
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\MainWindow.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\model\ExcelDictionary.baml
 C:\Users\NGB\source\repos\CheckTranslationWidthAPP\CheckTranslationWidthAPP\CheckTranslationWidthAPP\obj\Debug\UserSetting.g.cs

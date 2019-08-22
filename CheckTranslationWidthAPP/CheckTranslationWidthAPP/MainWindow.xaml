@@ -93,11 +93,12 @@
             <Grid
                 HorizontalAlignment="Center"
                 Margin="15,10,15,10">
-                <DataGrid 
+                <DataGrid
                     x:Name="MDataGrid"
                     AutoGenerateColumns="False">
                     <DataGrid.Columns>
                         <DataGridTextColumn 
+                            SortDirection="Ascending"
                             Binding="{Binding No}">
                             <DataGridTextColumn.Header>
                                 <TextBlock Text="{DynamicResource No}"/>
@@ -232,9 +233,11 @@
                 <Button
                     x:Name="btnTest"
                     Content="test" 
+                    Background="Blue"
+                    Visibility="Hidden"
                     HorizontalAlignment="Center" 
                     VerticalAlignment="Center" />
-                <ProgressBar
+                <!--<ProgressBar
                     x:Name="mProgressBar"
                     Minimum="0"
                     Maximum="100"
@@ -242,7 +245,7 @@
                     Height="20"
                     Margin="20,10,20,0" 
                     BorderBrush="White" 
-                    Background="White" />
+                    Background="White" />-->
             </Grid>
         </StackPanel>
         
