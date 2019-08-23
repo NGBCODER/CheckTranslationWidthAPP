@@ -62,16 +62,10 @@ namespace CheckTranslationWidthAPP.Utils
             settings.Indent = true;
 
             XmlWriter xmlWriter = null;
-            try
-            {
-                xmlWriter = XmlWriter.Create(path, settings);
-                xmlFile.Save(xmlWriter);
-            }
-            catch (Exception e)
-            {
-                LogHelper.Logger.Info("文件写入异常");
-                throw e;
-            }
+
+            xmlWriter = XmlWriter.Create(path, settings);
+            xmlFile.Save(xmlWriter);
+
             xmlWriter.Flush();
             xmlWriter.Close();
         }

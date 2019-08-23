@@ -13,7 +13,7 @@ namespace CheckTranslationWidthAPP
             /// <summary>
             /// 文件不存在
             /// </summary>
-            FileNoExist = -1,
+            TranslationFileNoExist = -1,
 
             /// <summary>
             /// 文件类型不支持
@@ -32,6 +32,11 @@ namespace CheckTranslationWidthAPP
             /// 译文中存在空值
             /// </summary>
             ColumnHasNullValue = 3,
+
+            /// <summary>
+            /// 输出完成
+            /// </summary>
+            Success = 6;
         }
     }
 }

@@ -1,0 +1,67 @@
+﻿<Window x:Class="CheckTranslationWidthAPP.MyMessageBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheckTranslationWidthAPP"
+        mc:Ignorable="d"
+        Height="200" 
+        Width="350"
+        FontSize="20"
+        AllowsTransparency="True"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        Background="{x:Null}">
+    <Grid>
+        <Border
+            Background="#FFF8FFFF"
+            Margin="2"
+            BorderThickness="2"
+            BorderBrush="CornflowerBlue"
+            CornerRadius="10">
+            <StackPanel>
+                <Image 
+                    x:Name="imFail"
+                    Margin="0,5,0,5"
+                    Width="70"
+                    Source="image/ok.png"/>
+                <Label
+                    x:Name="lbBigText"
+                    Content="成功" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center"
+                    FontWeight="Bold"/>
+                <Label
+                    x:Name="lbSmallText"
+                    Content="Success" 
+                    HorizontalAlignment="Center" 
+                    VerticalAlignment="Center" FontSize="14"/>
+                <Border
+                    x:Name="bdCheck"
+                    Margin="0,10,0,0"
+                    Width="75"
+                    Height="35"
+                    Background="DodgerBlue"
+                    CornerRadius="5">
+                    <Button
+                        x:Name="btCheck"
+                        Content="确定" 
+                        Margin="2"
+                        Background="DodgerBlue"
+                        BorderBrush="DodgerBlue" 
+                        BorderThickness="0" 
+                        Foreground="White"
+                        Click="Button_Click" 
+                        MouseEnter="btCheck_MouseEnter" 
+                        MouseLeave="btCheck_MouseLeave"
+                        />
+                </Border>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Window>
+
+
+
+
+

@@ -47,11 +47,6 @@ namespace CheckTranslationWidthAPP.Utils
                     {
                         Console.WriteLine("The translation is incorrect and there is a null value" + Environment.NewLine+ Environment.NewLine + "译文不正确，存在空值");
                     }
-                    //Ui方式
-                    else
-                    {
-                        MessageBox.Show("The translation is incorrect and there is a null value" + Environment.NewLine + "译文不正确，存在空值");
-                    }
                     throw new Exception();
                 }
                 //数据封装

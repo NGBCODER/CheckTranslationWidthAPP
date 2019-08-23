@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C138E7CB-FAA5-4A0D-8605-1AD31BD70004}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <RootNamespace>CheckTranslationWidthAPP</RootNamespace>
     <AssemblyName>CheckTranslationWidthAPP</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
@@ -133,16 +133,24 @@
     <Compile Include="model\ResultQueueInfo.cs" />
     <Compile Include="model\TranslationResult.cs" />
     <Compile Include="model\Translation.cs" />
+    <Compile Include="MyMessageBox.xaml.cs">
+      <DependentUpon>MyMessageBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="StatusCode.cs" />
     <Compile Include="UserSetting.xaml.cs">
       <DependentUpon>UserSetting.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\ExcelUtils.cs" />
+    <Compile Include="Utils\OpenWindowsUtils.cs" />
     <Compile Include="Utils\OutPutOperator.cs" />
     <Compile Include="Utils\QueueUtis.cs" />
     <Compile Include="view\ViewData.cs" />
     <Page Include="language\en_US.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MyMessageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -236,6 +244,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="image\setting.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\error.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="image\ok.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

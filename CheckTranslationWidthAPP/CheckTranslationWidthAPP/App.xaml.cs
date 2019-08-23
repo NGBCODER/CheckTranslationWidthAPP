@@ -52,7 +52,7 @@ namespace CheckTranslationWidthAPP
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Input column position is incorrect");
+                        Console.WriteLine((int)StatusCode.code.TargetColumnNoCurrent);
                         Environment.Exit(0);
                     }
                     break;
@@ -63,7 +63,7 @@ namespace CheckTranslationWidthAPP
                 //文件位置输入有误
                 if (File.Exists(Argument.FilePath) == false)
                 {
-                    Console.WriteLine("This is not a document or the document does not exist");
+                    Console.WriteLine((int)StatusCode.code.TranslationFileNoExist);
                     Environment.Exit(0);
                 }
                 //再判断输出类型，xml json
@@ -71,23 +71,21 @@ namespace CheckTranslationWidthAPP
                 {
                     if ((!Argument.OutPutType.Equals("json") && !Argument.OutPutType.Equals("xml")))
                     {
-                        Console.WriteLine("The file type is not current!,only support xml or json");
+                        Console.WriteLine((int)StatusCode.code.FileTypeNoSupport);
                         Environment.Exit(0);
                     }
 
-                    //再对文件夹参数判断
+                    //再对保存文件夹参数判断
                     if (e.Args.Length >= 3 && Directory.Exists(Argument.OutPutDiretory) == false)
                     {
                         try
                         {                            
-                            //创建文件夹
-                            Console.WriteLine("Creating the Diretory...");
+                            //尝试创建文件夹
                             Directory.CreateDirectory(Argument.OutPutDiretory);
-                            Console.WriteLine("Create Success");
                         }
                         catch (Exception)
                         {
-                            Console.WriteLine("Creating the Diretory fail,please check your diretory");
+                            Console.WriteLine((int)StatusCode.code.SavePathNoCurrent);
                             Environment.Exit(0);
                         }
                     }

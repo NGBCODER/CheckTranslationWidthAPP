@@ -44,6 +44,8 @@ namespace CheckTranslationWidthAPP
         private ViewData viewData = new ViewData();
         //后台线程
         private BackgroundWorker backgroundWorker;
+        //是否出错
+        private bool IsError = false;
         #endregion
 
         public MainWindow()
@@ -87,7 +89,7 @@ namespace CheckTranslationWidthAPP
             }
             catch (Exception e)
             {
-                MessageBox.Show("无法打开结果文件!");
+                OpenWindowsUtils.OpenMyMessageBox(false, "无法打开结果文件!", "Unable to open the result file!", this);
             }
 
         }
@@ -152,15 +154,14 @@ namespace CheckTranslationWidthAPP
                 }
                 catch (Exception)
                 {
-                    MessageBox.Show("The file has been occupied by other programs. Please close the program that occupies the file." + 
-                        Environment.NewLine + 
-                        Environment.NewLine + 
-                        "文件已被其它程序占用，请关闭占用该文件的程序。");
+                    OpenWindowsUtils.OpenMyMessageBox(false, "文件已被其它程序占用，请关闭占用该文件的程序", 
+                        "The file has been occupied by other programs.", 
+                        this);
                 }
             }
             else
             {
-                MessageBox.Show("请您选择待检测的译文文件");
+                OpenWindowsUtils.OpenMyMessageBox(false, "请您选择待检测的译文文件", "Please select the translation file", this);
             }
         }
 
@@ -262,14 +263,23 @@ namespace CheckTranslationWidthAPP
             //清空容器中上一次的数据
             resultList.Clear();
             dicOverWidthLocation.Clear();
-
+            IsError = false;
             //UI参数
             InputContainer container = (InputContainer) e.Argument;
 
-            //工作簿
-            IXLWorkbook wbTrans = new XLWorkbook(container.FilePath);
+            //工作簿 BUG
+            IXLWorkbook wbTrans = null;
+            IXLWorksheet wsTrans = null;
+            try
+            {
+                wbTrans = new XLWorkbook(container.FilePath);
+                wsTrans = wbTrans.Worksheet(1);
+            }
+            catch (Exception)
+            {
+                OpenWindowsUtils.OpenMyMessageBox(false, "文件已被其它程序占用，请关闭占用该文件的程序", "The file has been occupied by other programs.",this);
+            }
             //sheet
-            IXLWorksheet wsTrans = wbTrans.Worksheet(1);
             
             #endregion
 
@@ -289,6 +299,11 @@ namespace CheckTranslationWidthAPP
                 //UI方式 非正常关闭处理
                 if (Argument.FilePath==null)
                 {
+                    Dispatcher.Invoke(delegate ()
+                    {
+                        OpenWindowsUtils.OpenMyMessageBox(false, "译文不正确，存在空值", "There is a null value", this);
+                        IsError = true;
+                    });
                     return;
                 }
                 //控制台 非正常关闭处理
@@ -356,7 +371,7 @@ namespace CheckTranslationWidthAPP
                 catch (Exception)
                 {
                     Console.WriteLine("write error");
-                    MessageBox.Show("write error"+Environment.NewLine+ Environment.NewLine + "文件输出出错");
+                    OpenWindowsUtils.OpenMyMessageBox(false, "文件输出出错", "File output error", this);
                 }
             }
             //若输出类型未指定 默认文件类型json
@@ -510,13 +525,13 @@ namespace CheckTranslationWidthAPP
         {
             if (isNormalClose)
             {
-                Console.WriteLine("success");
-                //Console.ReadKey();
+                Console.WriteLine((int)StatusCode.code.Success);
+                Console.ReadKey();
             }
             else
             {
-                Console.WriteLine("fail");
-                //Console.ReadKey();
+                Console.WriteLine((int)StatusCode.code.ColumnHasNullValue);
+                Console.ReadKey();
             }
             if (Argument.FilePath != null)
             {
@@ -619,9 +634,9 @@ namespace CheckTranslationWidthAPP
         {
             
             //若不是控制台传参，发出提示与打开文件对话框
-            if (Argument.FilePath == null)
+            if (Argument.FilePath == null && IsError == false)
             {
-                MessageBox.Show("Check complete" + Environment.NewLine+ Environment.NewLine + "检查完毕");
+                OpenWindowsUtils.OpenMyMessageBox(true, "检查完毕", "Check complete", this);
                 MopenFileDialog(Argument.OutPutDiretory);
             }
             btnHandle.IsEnabled = true;
@@ -665,7 +680,7 @@ namespace CheckTranslationWidthAPP
                 }
                 catch (Exception e2)
                 {
-                    MessageBox.Show(e2.Message);
+                    OpenWindowsUtils.OpenMyMessageBox(false,"语言包不存在", "Language packages do not exist", this);
                 }
             } //中文
             else if(cmbSelectLanguage.SelectedIndex == 1)
@@ -678,7 +693,7 @@ namespace CheckTranslationWidthAPP
                 }
                 catch (Exception e2)
                 {
-                    MessageBox.Show(e2.Message);
+                    OpenWindowsUtils.OpenMyMessageBox(false, "语言包不存在", "Language packages do not exist", this);
                 }
             }
             //更新
