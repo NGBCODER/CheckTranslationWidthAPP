@@ -24,19 +24,26 @@ namespace CheckTranslationWidthAPP
             /// 保存路径不正确
             /// </summary>
             SavePathNoCurrent = 1,
+
             /// <summary>
             /// 译文列的位置不正确
             /// </summary>
             TargetColumnNoCurrent = 2,
+
             /// <summary>
             /// 译文中存在空值
             /// </summary>
             ColumnHasNullValue = 3,
 
             /// <summary>
+            /// 输出错误
+            /// </summary>
+            WriteError = 4,
+
+            /// <summary>
             /// 输出完成
             /// </summary>
-            Success = 6;
+            Success = 6,
         }
     }
 }

@@ -100,7 +100,72 @@
                         VerticalAlignment="Center" 
                         HorizontalAlignment="Center"/>
                 </StackPanel>
-                
+
+
+                <Grid
+                    Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel>
+                        <Label 
+                            HorizontalAlignment="Center"
+                            Content="字体"/>
+                        <ListBox
+                            Height="200"
+                            x:Name="lbFont"/>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="1">
+                        <Label 
+                            HorizontalAlignment="Center"
+                            Content="字形"/>
+                        <ListBox 
+                            MaxWidth="150"
+                            x:Name="lbFontStyle"/>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="2">
+                        <Label 
+                            HorizontalAlignment="Center"
+                            Content="字体粗细"/>
+                        <ListBox 
+                            MaxWidth="150"
+                            x:Name="lbFontWeights"/>
+                    </StackPanel>
+
+
+                    <StackPanel
+                        Grid.Column="3">
+                        <Label 
+                            HorizontalAlignment="Center"
+                            Content="字体拉伸"/>
+                        <ListBox 
+                            MaxWidth="150"
+                            x:Name="lbFontStretchs"/>
+                    </StackPanel>
+
+                    <StackPanel
+                        Grid.Column="4">
+                        <Label 
+                            HorizontalAlignment="Center"
+                            Content="字体大小"/>
+                        <TextBox 
+                            x:Name="fontSize"
+                            Text="12"
+                            TextAlignment="Center"
+                            MaxWidth="150"/>
+                    </StackPanel>
+
+
+                </Grid>
+
                 <StackPanel
                     FlowDirection="RightToLeft"
                     Orientation="Horizontal">

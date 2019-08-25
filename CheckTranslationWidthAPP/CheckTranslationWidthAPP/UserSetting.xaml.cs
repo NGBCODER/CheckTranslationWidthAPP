@@ -1,7 +1,10 @@
 ﻿using CheckTranslationWidthAPP.model;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Collections.Generic;
+using System.Drawing.Text;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Media;
 using Newtonsoft.Json;
@@ -22,6 +25,8 @@ namespace CheckTranslationWidthAPP
         public UserSetting()
         {
             InitializeComponent();
+            //font
+            InitFontSeletion();
             //更新语言
             if (MyResourceDictionary.resource != null)
             {
@@ -162,6 +167,55 @@ namespace CheckTranslationWidthAPP
             configura.OutPutType = Argument.OutPutType;
             configura.TargetColumn = Argument.TargetColumn;
             SetConfiguraToJSON(configura, jsonSetFile);
+        }
+
+        /// <summary>
+        /// 初始化字体选择框
+        /// </summary>
+        private void InitFontSeletion()
+        {
+            List<object> list = new List<object>();
+            InstalledFontCollection collection = new InstalledFontCollection();
+            foreach (var item in collection.Families)
+            {
+                list.Add(item.Name);
+            }
+            lbFont.ItemsSource = list;
+            lbFont.SelectedItem = list.First();
+
+            List<object> FontStylesList = new List<object>();
+            FontStylesList.Add(FontStyles.Normal);
+            FontStylesList.Add(FontStyles.Italic);
+            FontStylesList.Add(FontStyles.Oblique);
+            lbFontStyle.ItemsSource = FontStylesList;
+            lbFontStyle.SelectedItem = FontStylesList.First();
+
+            List<object> FontWeightsList = new List<object>();
+            FontWeightsList.Add(FontWeights.Normal);
+            FontWeightsList.Add(FontWeights.Thin);
+            FontWeightsList.Add(FontWeights.ExtraLight);
+            FontWeightsList.Add(FontWeights.Light);
+            FontWeightsList.Add(FontWeights.Medium);
+            FontWeightsList.Add(FontWeights.SemiBold);
+            FontWeightsList.Add(FontWeights.Bold);
+            FontWeightsList.Add(FontWeights.ExtraBold);
+            FontWeightsList.Add(FontWeights.Black);
+            FontWeightsList.Add(FontWeights.ExtraBlack);
+            lbFontWeights.ItemsSource = FontWeightsList;
+            lbFontWeights.SelectedItem = FontWeightsList.First();
+
+            List<object> lbFontStretchsList = new List<object>();
+            lbFontStretchsList.Add(FontStretches.Normal);
+            lbFontStretchsList.Add(FontStretches.Condensed);
+            lbFontStretchsList.Add(FontStretches.Expanded);
+            lbFontStretchsList.Add(FontStretches.ExtraCondensed);
+            lbFontStretchsList.Add(FontStretches.ExtraExpanded);
+            lbFontStretchsList.Add(FontStretches.SemiCondensed);
+            lbFontStretchsList.Add(FontStretches.SemiExpanded);
+            lbFontStretchsList.Add(FontStretches.UltraCondensed);
+            lbFontStretchsList.Add(FontStretches.UltraExpanded);
+            lbFontStretchs.ItemsSource = lbFontStretchsList;
+            lbFontStretchs.SelectedItem = lbFontStretchsList.First();
         }
     }
 }

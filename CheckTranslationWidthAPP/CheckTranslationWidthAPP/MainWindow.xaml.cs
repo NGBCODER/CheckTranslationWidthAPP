@@ -370,8 +370,15 @@ namespace CheckTranslationWidthAPP
                 }
                 catch (Exception)
                 {
-                    Console.WriteLine("write error");
-                    OpenWindowsUtils.OpenMyMessageBox(false, "文件输出出错", "File output error", this);
+                    if (Argument.FilePath!=null)
+                    {
+                        //文件输出出错
+                        Console.WriteLine((int)StatusCode.code.WriteError);
+                    }
+                    else
+                    {
+                        OpenWindowsUtils.OpenMyMessageBox(false, "文件输出出错", "File output error", this);
+                    }
                 }
             }
             //若输出类型未指定 默认文件类型json
@@ -385,8 +392,6 @@ namespace CheckTranslationWidthAPP
             PaintCellColorOfDic(dicOverWidthLocation,wsTrans,XLColor.PastelRed);
             wbTrans.SaveAs(Path.Combine(baseDiretory, "输出结果.xlsx"));
             #endregion
-
-
 
             #region 控制台正常关闭处理
             if (Argument.FilePath!=null)
@@ -525,13 +530,13 @@ namespace CheckTranslationWidthAPP
         {
             if (isNormalClose)
             {
+                //正常关闭
                 Console.WriteLine((int)StatusCode.code.Success);
-                Console.ReadKey();
             }
             else
             {
+                //译文存在空值
                 Console.WriteLine((int)StatusCode.code.ColumnHasNullValue);
-                Console.ReadKey();
             }
             if (Argument.FilePath != null)
             {
@@ -555,7 +560,6 @@ namespace CheckTranslationWidthAPP
                 FontWeights.Normal,
                 FontStretches.Normal,
                 12);
-
             return width;
         }
 

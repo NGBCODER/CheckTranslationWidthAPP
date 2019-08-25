@@ -10,6 +10,8 @@ using CheckTranslationWidthAPP.model;
 using ClosedXML.Excel;
 using DocumentFormat.OpenXml.Wordprocessing;
 using FontFamily = System.Windows.Media.FontFamily;
+using FontStyle = System.Windows.FontStyle;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace CheckTranslationWidthAPP.Utils
 {
@@ -233,8 +235,7 @@ namespace CheckTranslationWidthAPP.Utils
                 new Typeface(fontFamily, fontStyle, fontWeight, fontStretch),
                 fontSize,
                 Brushes.Black);
-            Size size = new Size(formattedText.Width, formattedText.Height);
-            return size.Width;
+            return formattedText.Width;
         }
 
 

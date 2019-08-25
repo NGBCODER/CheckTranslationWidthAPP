@@ -41,12 +41,6 @@ namespace CheckTranslationWidthAPP.Utils
                     {
                         dataQueues[j].Clear();
                     }
-
-                    //若是控制台传参，自动关闭程序
-                    if (Argument.FilePath != null)
-                    {
-                        Console.WriteLine("The translation is incorrect and there is a null value" + Environment.NewLine+ Environment.NewLine + "译文不正确，存在空值");
-                    }
                     throw new Exception();
                 }
                 //数据封装
